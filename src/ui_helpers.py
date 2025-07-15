@@ -105,61 +105,6 @@ def print_greeting_response():
     print_help()
 
 
-from colorama import Fore, Style
-
-
-def handle_contact_module():
-    print(
-        f"{Fore.MAGENTA}{Style.BRIGHT}╔══════════════════════════════════════════════════════╗"
-    )
-    print(f"{Fore.CYAN}║  📁  MODULE: CONTACTS                                ║")
-    print(f"{Fore.MAGENTA}╠══════════════════════════════════════════════════════╣")
-    print(f"{Fore.CYAN}║  🧭  You have entered the CONTACT module.            ║")
-    print(f"{Fore.CYAN}║  ➤  Available commands:                              ║")
-    print(
-        f"{Fore.CYAN}║     • {Fore.LIGHTGREEN_EX}add [name] [phone]{Fore.CYAN}      — Add a new contact     ║"
-    )
-    print(
-        f"{Fore.CYAN}║     • {Fore.LIGHTGREEN_EX}edit [name]{Fore.CYAN}             — Edit contact info     ║"
-    )
-    print(
-        f"{Fore.CYAN}║     • {Fore.LIGHTGREEN_EX}delete [name]{Fore.CYAN}           — Delete a contact      ║"
-    )
-    print(
-        f"{Fore.CYAN}║     • {Fore.LIGHTGREEN_EX}find [query]{Fore.CYAN}            — Search contacts       ║"
-    )
-    print(
-        f"{Fore.CYAN}║     • {Fore.LIGHTGREEN_EX}birthdays [days]{Fore.CYAN}        — Upcoming birthdays    ║"
-    )
-    print(
-        f"{Fore.CYAN}║     • {Fore.LIGHTGREEN_EX}back{Fore.CYAN}                    — Return to main menu   ║"
-    )
-    print(
-        f"{Fore.MAGENTA}╚══════════════════════════════════════════════════════╝{Style.RESET_ALL}"
-    )
-
-    # Здесь можно запустить внутренний цикл для приёма команд внутри модуля
-    while True:
-        cmd, args = parse_input()
-        if not cmd:
-            continue
-
-        if cmd == "back":
-            break
-        elif cmd == "add":
-            print("🛠  Add contact logic not implemented yet.")
-        elif cmd == "edit":
-            print("🛠  Edit contact logic not implemented yet.")
-        elif cmd == "delete":
-            print("🛠  Delete contact logic not implemented yet.")
-        elif cmd == "find":
-            print("🛠  Find contact logic not implemented yet.")
-        elif cmd == "birthdays":
-            print("🛠  Birthdays logic not implemented yet.")
-        else:
-            print_unknown_command(cmd)
-
-
 def handle_contacts_module():
     print(
         f"{Fore.MAGENTA}{Style.BRIGHT}╔══════════════════════════════════════════════════════╗"
