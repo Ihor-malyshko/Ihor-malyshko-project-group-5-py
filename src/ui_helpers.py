@@ -37,10 +37,10 @@ def print_welcome():
     print(f"{Fore.MAGENTA}╠══════════════════════════════════════════════════════╣")
 
     print(
-        f"{Fore.CYAN}║  🔹 Enter {Fore.LIGHTGREEN_EX}contact{Fore.CYAN}  - Manage address book             ║"
+        f"{Fore.CYAN}║  🔹 Enter {Fore.LIGHTGREEN_EX}contacts{Fore.CYAN}  - Manage address book             ║"
     )
     print(
-        f"{Fore.CYAN}║  🔹 Enter {Fore.LIGHTGREEN_EX}note{Fore.CYAN}     - Work with notes                  ║"
+        f"{Fore.CYAN}║  🔹 Enter {Fore.LIGHTGREEN_EX}notes{Fore.CYAN}     - Work with notes                  ║"
     )
     print(
         f"{Fore.CYAN}║  🔹 Enter {Fore.LIGHTGREEN_EX}help{Fore.CYAN}     - View available commands          ║"
