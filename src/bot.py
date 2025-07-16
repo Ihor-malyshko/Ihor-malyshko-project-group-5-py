@@ -1,13 +1,14 @@
-import ui_helpers
-import storage
+import ui.ui_screens as ui_screens
+from ui.ui_helpers import parse_input
+import storage.storage as storage
 
 
 def main():
-    ui_helpers.print_welcome()
+    ui_screens.print_welcome()
     # read file
     book = storage.load_data()
     while True:
-        command, args = ui_helpers.parse_input()
+        command, args = parse_input()
 
         if command is None:
             continue
@@ -15,18 +16,18 @@ def main():
         if command in ["close", "exit"]:
             # save
             storage.save_data(book)
-            ui_helpers.print_exit_message()
+            ui_screens.print_exit_message()
             break
         elif command == "hello":
-            ui_helpers.print_greeting_response()
+            ui_screens.print_greeting_response()
         elif command == "help":
-            ui_helpers.print_help()
+            ui_screens.print_help()
         elif command == "contacts":
-            ui_helpers.handle_contacts_module()
+            ui_screens.handle_contacts_module()
         elif command == "notes":
-            ui_helpers.handle_notes_module()
+            ui_screens.handle_notes_module()
         else:
-            ui_helpers.print_unknown_command()
+            ui_screens.print_unknown_command()
 
 
 def test_bot():
