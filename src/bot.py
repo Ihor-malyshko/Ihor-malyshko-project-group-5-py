@@ -128,7 +128,8 @@ def delete_contact(book, args):
 
 
 def main():
-    book = AddressBook()
+    # book = AddressBook()
+    book = storage.load_data()
     ui_helpers.print_welcome()
 
     while True:
