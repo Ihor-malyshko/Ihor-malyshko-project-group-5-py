@@ -177,6 +177,8 @@ def parse_input():
         ],
         style=cli_style,
     )
+
+    
     if not user_input.strip():
         print(
             f"{Fore.MAGENTA}{Style.BRIGHT}╔══════════════════════════════════════════════════════╗"

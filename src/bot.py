@@ -164,9 +164,8 @@ def main():
     book = AddressBook()
     print("Welcome to the assistant bot!")
 
-    while True:
-        user_input = input("Enter a command: ")
-        command, args = ui_helpers.parse_input(user_input)
+    while True:   
+        command, args = ui_helpers.parse_input()
 
         if command in ["close", "exit"]:
             print("Good bye!")
@@ -197,8 +196,6 @@ def main():
         else:
             print("Invalid command.")
 
-
-# -------------------- ЗАПУСК --------------------
 
 if __name__ == "__main__":
     main()
