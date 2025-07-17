@@ -165,11 +165,13 @@ def show_all_contacts(book: AddressBook) -> None:
     print("📇 All contacts:")
     print(book)
 
+
 def notes_command_handler(book: AddressBook, args: List[str]) -> None:
     if not args:
         ui_helpers.handle_notes_module()
     else:
         note_handler(book, args)
+
 
 def save_and_exit(book) -> None:
     """Save data and exit the application."""
