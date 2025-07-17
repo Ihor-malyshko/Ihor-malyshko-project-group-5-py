@@ -1,7 +1,6 @@
-import storage
-import ui_helpers
-from AddressBook import AddressBook, Record
-from Note import note_handler
+import ui.ui_screens as ui_screens
+from ui.ui_helpers import parse_input
+import storage.storage as storage
 
 
 def add_contact(book, args):
@@ -129,29 +128,31 @@ def delete_contact(book, args):
 
 
 def main():
-    
-    ui_helpers.print_welcome()
+    ui_screens.print_welcome()
     # read file
     book = storage.load_data()
 
     while True:
-        command, args = ui_helpers.parse_input()
+        command, args = parse_input()
 
         if command in ["close", "exit"]:
             storage.save_data(book)
-            ui_helpers.print_exit_message()
+            ui_screens.print_exit_message()
             break
 
         elif command == "hello":
-            ui_helpers.print_greeting_response()
-        # elif command == "notes":
+            ui_screens.print_greeting_response()
         elif command == "n":
             if not args:
               # If no arguments, show help for notes module
-                ui_helpers.handle_notes_module()
+                ui_screens.handle_notes_module()
             else:
               # Handle specific commands in notes module
               note_handler(book, args)
+        elif command == "help":
+            ui_screens.print_help()
+        elif command == "contacts":
+            ui_screens.handle_contacts_module()
 
         elif command == "add":
             add_contact(book, args)
