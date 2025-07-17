@@ -1,7 +1,5 @@
 from colorama import init, Fore, Style
-from prompt_toolkit import prompt
 from prompt_toolkit.styles import Style as PromptStyle
-
 
 init()
 
@@ -167,8 +165,8 @@ def handle_notes_module():
     )
 
 
-def parse_input():
-    user_input = prompt(
+def parse_input(session, command_completer):
+    user_input = session.prompt(
         [
             ("class:bracket", "╭─["),
             ("class:prompt", "assistant-terminal"),
@@ -176,9 +174,9 @@ def parse_input():
             ("class:arrow", "╰─>>> "),
         ],
         style=cli_style,
+        completer=command_completer,
     )
 
-    
     if not user_input.strip():
         print(
             f"{Fore.MAGENTA}{Style.BRIGHT}╔══════════════════════════════════════════════════════╗"

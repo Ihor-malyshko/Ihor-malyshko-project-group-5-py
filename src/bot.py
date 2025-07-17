@@ -1,9 +1,40 @@
+import sys
+import inspect
+from typing import Callable, Dict, Optional, List
+
+from prompt_toolkit import PromptSession
+from prompt_toolkit.completion import WordCompleter
+
 import storage
 import ui_helpers
+import cli
 from AddressBook import AddressBook, Record
 
 
-def add_contact(book, args):
+IGNORE_CASE = True
+
+
+def wrap_handler(
+    handler: Callable, *dependencies
+) -> Callable[[List[str]], Optional[str]]:
+    """
+    Wraps a command handler to provide a consistent interface.
+
+    If the original handler accepts 'args', it will be passed.
+    Otherwise, only dependencies are passed.
+    """
+    sig = inspect.signature(handler)
+    accepts_args = "args" in sig.parameters
+
+    def wrapper(args):
+        if accepts_args:
+            return handler(*dependencies, args)
+        return handler(*dependencies)
+
+    return wrapper
+
+
+def add_contact(book: AddressBook, args: List[str]) -> None:
     if not args:
         print("Usage: add <name> [address] [phones] [email] [birthday]")
         print("Example: add John Kyiv 1234567890 john@email.com 01.01.1990")
@@ -31,7 +62,7 @@ def add_contact(book, args):
         print(f"❌ Error: {e}")
 
 
-def edit_contact(book, args):
+def edit_contact(book: AddressBook, args: List[str]) -> None:
     if not args:
         print("Usage: edit <name> [new_address] [phones] [email] [birthday]")
         print("Example: edit John NewAddress 0987654321 new@email.com 02.02.1992")
@@ -63,8 +94,8 @@ def edit_contact(book, args):
         print(f"❌ Error while editing contact: {e}")
 
 
-def show_upcoming_birthdays(book):
-    user_input = input("Enter number of days to check: ").strip()
+def show_upcoming_birthdays(session: PromptSession, book: AddressBook) -> None:
+    user_input = session.prompt("Enter number of days to check: ").strip()
     if not user_input:
         print("Canceled.")
         return
@@ -83,20 +114,23 @@ def show_upcoming_birthdays(book):
         print("❌ Please enter a valid number.")
 
 
-def search_contact(book):
+def search_contact(session: PromptSession, book: AddressBook):
     print("Search contacts (or press Enter to cancel)")
     print("Available search criteria:\n 1. By name\n 2. By phone")
-    choice = input("Choose search criteria (1/2): ").strip()
+    choice = session.prompt("Choose search criteria (1/2): ").strip()
 
     if choice == "1":
-        query = input("Enter full or partial name: ").strip().lower()
+        query = session.prompt("Enter full or partial name: ").strip().lower()
         results = [
-            record for record in book.data.values()
+            record
+            for record in book.data.values()
             if query in record.name.value.lower()
         ]
 
     elif choice == "2":
-        query_numbers = input("Enter phone number(s) comma-separated: ").strip().split(",")
+        query_numbers = (
+            session.prompt("Enter phone number(s) comma-separated: ").strip().split(",")
+        )
         results = []
         for record in book.data.values():
             contact_numbers = [p.value for p in record.phones]
@@ -114,7 +148,7 @@ def search_contact(book):
         print("❌ No contacts found.")
 
 
-def delete_contact(book, args):
+def delete_contact(book: AddressBook, args: List[str]) -> None:
     if not args:
         print("Usage: delete <name>")
         return
@@ -127,46 +161,89 @@ def delete_contact(book, args):
         print("❌ Contact not found.")
 
 
+def show_all_contacts(book: AddressBook) -> None:
+    print("📇 All contacts:")
+    print(book)
+
+
+def save_and_exit(book) -> None:
+    """Save data and exit the application."""
+    storage.save_data(book)
+    ui_helpers.print_exit_message()
+    sys.exit(0)
+
+
+def process_command(
+    command: str,
+    args: List[str],
+    command_handlers: Dict[str, Callable],
+    available_commands: List[str],
+) -> Optional[str]:
+    handler = command_handlers.get(command)
+
+    if not handler:
+        return handle_invalid_command(
+            command, args, command_handlers, available_commands
+        )
+
+    return handler(args)
+
+
+def handle_invalid_command(
+    command: str,
+    args: List[str],
+    command_handlers: Dict[str, Callable],
+    available_commands: List[str],
+) -> Optional[str]:
+    suggestion = cli.suggest_command(command, available_commands)
+
+    if suggestion:
+        message = f"Command '{command}' not recognized.💡 Did you mean: {suggestion}?"
+        if cli.confirm(message):
+            return process_command(
+                suggestion, args, command_handlers, available_commands
+            )
+        else:
+            return None
+    else:
+        ui_helpers.print_unknown_command(command)
+        return None
+
+
 def main():
-    book = AddressBook()
+    session = PromptSession()
+    book = storage.load_data()
+
+    command_handlers: Dict[str, Callable] = {
+        "add": wrap_handler(add_contact, book),
+        "change": wrap_handler(edit_contact, book),
+        "show": wrap_handler(show_all_contacts, book),
+        "delete": wrap_handler(delete_contact, book),
+        "edit": wrap_handler(edit_contact, book),
+        "birthdays": wrap_handler(show_upcoming_birthdays, session, book),
+        "search": wrap_handler(search_contact, session, book),
+        "close": wrap_handler(save_and_exit, book),
+        "exit": wrap_handler(save_and_exit, book),
+        "hello": lambda _: ui_helpers.print_greeting_response(),
+        "help": lambda _: ui_helpers.print_help(),
+    }
+
+    available_commands = list(command_handlers.keys())
+    command_completer = WordCompleter(available_commands, ignore_case=IGNORE_CASE)
+
     ui_helpers.print_welcome()
 
     while True:
-        command, args = ui_helpers.parse_input()
-
-        if command in ["close", "exit"]:
-            storage.save_data(book)
-            ui_helpers.print_exit_message()
-            break
-
-        elif command == "hello":
-            ui_helpers.print_greeting_response()
-
-        elif command == "add":
-            add_contact(book, args)
-
-        elif command == "edit":
-            edit_contact(book, args)
-
-        elif command == "delete":
-            delete_contact(book, args)
-
-        elif command == "birthdays":
-            show_upcoming_birthdays(book)
-
-        elif command == "search":
-            search_contact(book)
-
-        elif command == "show":
-            print("📇 All contacts:")
-            print(book)
-
-        elif command == "help":
-            ui_helpers.print_help()
-
-        else:
-            ui_helpers.print_unknown_command(command)
+        try:
+            command, args = ui_helpers.parse_input(session, command_completer)
+            if command:
+                process_command(command, args, command_handlers, available_commands)
+        except KeyboardInterrupt:
+            save_and_exit(book)
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
