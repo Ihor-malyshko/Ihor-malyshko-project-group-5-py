@@ -21,7 +21,7 @@ def border(top=True) -> str:
 
 
 def separator() -> str:
-    return f"{COLORS.magenta}╠{"═" * (FULL_WIDTH + 2)}╣"
+    return f"{COLORS.magenta}╠{'═' * (FULL_WIDTH + 2)}╣"
 
 
 def line(content: str) -> str:
