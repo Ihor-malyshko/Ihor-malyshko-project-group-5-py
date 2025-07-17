@@ -128,8 +128,10 @@ def delete_contact(book, args):
 
 
 def main():
-    book = AddressBook()
+    
     ui_helpers.print_welcome()
+    # read file
+    book = storage.load_data()
 
     while True:
         command, args = ui_helpers.parse_input()
