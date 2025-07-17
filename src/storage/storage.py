@@ -1,10 +1,14 @@
 import pickle
 import os
+import sys
 from address_book import AddressBook
 
 # Absolute path to the data file stored in the same directory as this script
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 FILE_PATH = os.path.join(BASE_DIR, "addressbook.pkl")
+
+# Cтворює псевдонім для модуля, щоб pickle міг знайти потрібний клас
+sys.modules['AddressBook'] = sys.modules.get('address_book', sys.modules[__name__])
 
 
 def save_data(book, filename=FILE_PATH):
@@ -24,5 +28,5 @@ def load_data(filename=FILE_PATH):
     try:
         with open(filename, "rb") as f:
             return pickle.load(f)
-    except FileNotFoundError:
+    except (FileNotFoundError, ModuleNotFoundError, AttributeError):
         return AddressBook()
