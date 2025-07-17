@@ -1,6 +1,6 @@
 import pickle
 import os
-from AddressBook import AddressBook
+from address_book import AddressBook
 
 # Absolute path to the data file stored in the same directory as this script
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
