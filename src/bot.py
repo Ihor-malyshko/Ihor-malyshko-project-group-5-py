@@ -9,7 +9,7 @@ import storage
 import ui_helpers
 import cli
 from AddressBook import AddressBook, Record
-
+from Note import note_handler
 
 IGNORE_CASE = True
 
@@ -165,6 +165,11 @@ def show_all_contacts(book: AddressBook) -> None:
     print("📇 All contacts:")
     print(book)
 
+def notes_command_handler(book: AddressBook, args: List[str]) -> None:
+    if not args:
+        ui_helpers.handle_notes_module()
+    else:
+        note_handler(book, args)
 
 def save_and_exit(book) -> None:
     """Save data and exit the application."""
@@ -212,6 +217,7 @@ def handle_invalid_command(
 
 def main():
     session = PromptSession()
+    # read file
     book = storage.load_data()
 
     command_handlers: Dict[str, Callable] = {
@@ -222,6 +228,7 @@ def main():
         "edit": wrap_handler(edit_contact, book),
         "birthdays": wrap_handler(show_upcoming_birthdays, session, book),
         "search": wrap_handler(search_contact, session, book),
+        "notes": wrap_handler(notes_command_handler, book),
         "close": wrap_handler(save_and_exit, book),
         "exit": wrap_handler(save_and_exit, book),
         "hello": lambda _: ui_helpers.print_greeting_response(),
