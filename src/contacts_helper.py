@@ -1,7 +1,7 @@
 import ui.ui_screens as ui_screens
 from ui.ui_helpers import parse_input
 from ui.ui_screens import print_unknown_command
-from AddressBook import  Record
+from address_book import  Record
 
 
 def add_contact(book, args):
