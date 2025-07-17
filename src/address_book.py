@@ -1,7 +1,7 @@
 from collections import UserDict
 from datetime import datetime, timedelta
 import re
-from Note import Note 
+from note import Note 
 
 # -------------------- КЛАСИ ПОЛІВ --------------------
 

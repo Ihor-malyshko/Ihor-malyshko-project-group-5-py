@@ -1,7 +1,7 @@
 import storage
 import ui_helpers
-from AddressBook import AddressBook, Record
-from Note import note_handler
+from address_book import Record
+from note import note_handler
 
 
 def add_contact(book, args):
