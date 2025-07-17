@@ -1,6 +1,5 @@
-# import ui_helpers
 import storage  
-
+import ui_helpers
 from AddressBook import AddressBook, Record
 
 # -------------------- ФУНКЦІЇ ДЛЯ КОМАНД --------------------
@@ -159,21 +158,15 @@ def delete_contact(book):
         print("Contact not found.")
 
 
-# -------------------- ПАРСЕР --------------------
-
-def parse_input(user_input):
-    parts = user_input.strip().split()
-    return parts[0].lower(), parts[1:]
-
-
 # -------------------- MAIN --------------------
 
 def main():
     book = AddressBook()
     print("Welcome to the assistant bot!")
+
     while True:
         user_input = input("Enter a command: ")
-        command, args = parse_input(user_input)
+        command, args = ui_helpers.parse_input(user_input)
 
         if command in ["close", "exit"]:
             print("Good bye!")
@@ -209,48 +202,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-# -------------------- ЗАПУСК --------------------
-
-# if __name__ == "__main__":
-#     main()
-
-
-# def main():
-#     ui_helpers.print_welcome()
-#     # read file
-#     book = storage.load_data()
-#     while True:
-#         command, args = ui_helpers.parse_input()
-
-#         if command is None:
-#             continue
-
-#         if command in ["close", "exit"]:
-#             # save
-#             storage.save_data(book)
-#             ui_helpers.print_exit_message()
-#             break
-#         elif command == "hello":
-#             ui_helpers.print_greeting_response()
-#         elif command == "help":
-#             ui_helpers.print_help()
-#         elif command == "contacts":
-#             ui_helpers.handle_contacts_module()
-#         elif command == "notes":
-#             ui_helpers.handle_notes_module()
-#         else:
-#             ui_helpers.print_unknown_command()
-
-
-# def test_bot():
-#     pass  # Placeholder for bot tests
-
-
-# def test_file():
-#     pass  # Placeholder for file save and load tests
-
-
-# if __name__ == "__main__":
-#     test_bot()
-#     test_file()
-#     main()
