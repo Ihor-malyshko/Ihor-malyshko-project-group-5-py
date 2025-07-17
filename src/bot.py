@@ -1,6 +1,7 @@
 import storage
 import ui_helpers
 from AddressBook import AddressBook, Record
+from Note import note_handler
 
 
 def add_contact(book, args):
@@ -143,6 +144,14 @@ def main():
 
         elif command == "hello":
             ui_helpers.print_greeting_response()
+        # elif command == "notes":
+        elif command == "n":
+            if not args:
+              # If no arguments, show help for notes module
+                ui_helpers.handle_notes_module()
+            else:
+              # Handle specific commands in notes module
+              note_handler(book, args)
 
         elif command == "add":
             add_contact(book, args)

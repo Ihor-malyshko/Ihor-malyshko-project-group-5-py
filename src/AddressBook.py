@@ -1,14 +1,7 @@
-# class AddressBook():
-#     def __init__(self, value = 'test'):
-#         self.value = value
-        
-#     def __str__(self):
-#         return str(self.value)  
-
-
 from collections import UserDict
 from datetime import datetime, timedelta
 import re
+from Note import Note 
 
 # -------------------- КЛАСИ ПОЛІВ --------------------
 
@@ -63,6 +56,7 @@ class Record:
         self.phones = []
         self.emails = []
         self.birthday = None
+        self.note = None
 
     def add_address(self, address):
         self.address = Address(address)
@@ -75,6 +69,13 @@ class Record:
 
     def add_birthday(self, birthday_str):
         self.birthday = Birthday(birthday_str)
+    
+    def add_note(self, note):
+        self.note = Note(note)
+    def get_note(self):
+        if not self.note:
+            return None
+        return self.note
 
     def __str__(self):
         name = self.name.value
@@ -82,7 +83,8 @@ class Record:
         phones = ", ".join(phone.value for phone in self.phones) or "No phone"
         emails = ", ".join(email.value for email in self.emails) or "No email"
         birthday = str(self.birthday) if self.birthday else "No birthday"
-        return f"Contact name: {name}, address: {address}, phone: {phones}, email: {emails}, birthday: {birthday}"
+        note = self.note if self.note else "No note"
+        return f"Contact name: {name}, address: {address}, phone: {phones}, email: {emails}, birthday: {birthday}, note: {note}"
 
 # -------------------- АДРЕСНА КНИГА --------------------
 
@@ -126,4 +128,7 @@ class AddressBook(UserDict):
         return congratulation_dates
 
     def __str__(self):
+        if not self.data:
+            return "Address book is empty."
+      
         return "\n".join(str(record) for record in self.data.values())

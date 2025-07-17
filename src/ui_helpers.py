@@ -138,32 +138,32 @@ def handle_contacts_module():
 
 def handle_notes_module():
     print(
-        f"{Fore.MAGENTA}{Style.BRIGHT}╔══════════════════════════════════════════════════════╗"
+        f"{Fore.MAGENTA}{Style.BRIGHT}  ╔══════════════════════════════════════════════════════╗"
     )
-    print(f"{Fore.CYAN}║  📒  MODULE: NOTES                                   ║")
-    print(f"{Fore.MAGENTA}╠══════════════════════════════════════════════════════╣")
-    print(f"{Fore.CYAN}║  🧭  You have entered the NOTES module.              ║")
-    print(f"{Fore.CYAN}║  ➤  Available commands:                              ║")
+    print(f"{Fore.CYAN}  ║  📒  MODULE: NOTES                                   ║")
+    print(f"{Fore.MAGENTA}  ╠══════════════════════════════════════════════════════╣")
+    print(f"{Fore.CYAN}  ║  🧭  You have entered the NOTES module.              ║")
+    print(f"{Fore.CYAN}  ║  ➤  Available commands:                              ║")
     print(
-        f"{Fore.CYAN}║     • {Fore.LIGHTGREEN_EX}add [note text]{Fore.CYAN}           — Add new note         ║"
-    )
-    print(
-        f"{Fore.CYAN}║     • {Fore.LIGHTGREEN_EX}edit [note id]{Fore.CYAN}            — Edit a note           ║"
+        f"{Fore.CYAN}  ║     • {Fore.LIGHTGREEN_EX}add [note text]{Fore.CYAN}           — Add new note       ║"
     )
     print(
-        f"{Fore.CYAN}║     • {Fore.LIGHTGREEN_EX}delete [note id]{Fore.CYAN}          — Delete a note         ║"
+        f"{Fore.CYAN} ║    • {Fore.LIGHTGREEN_EX}edit [note id]{Fore.CYAN}            — Edit a note           ║"
     )
     print(
-        f"{Fore.CYAN}║     • {Fore.LIGHTGREEN_EX}search [query]{Fore.CYAN}            — Search notes          ║"
+        f"{Fore.CYAN}║     • {Fore.LIGHTGREEN_EX}delete [note id]{Fore.CYAN}          — Delete a note          ║"
     )
     print(
-        f"{Fore.CYAN}║     • {Fore.LIGHTGREEN_EX}list-tags{Fore.CYAN}                — List available tags   ║"
+        f"{Fore.CYAN}║     • {Fore.LIGHTGREEN_EX}search [query]{Fore.CYAN}            — Search notes           ║"
     )
     print(
-        f"{Fore.CYAN}║     • {Fore.LIGHTGREEN_EX}back{Fore.CYAN}                     — Return to main menu    ║"
+        f"{Fore.CYAN} ║     • {Fore.LIGHTGREEN_EX}list-tags{Fore.CYAN}                — List available tags   ║"
     )
     print(
-        f"{Fore.MAGENTA}╚══════════════════════════════════════════════════════╝{Style.RESET_ALL}"
+        f"{Fore.CYAN}║     • {Fore.LIGHTGREEN_EX}back{Fore.CYAN}                     — Return to main menu     ║"
+    )
+    print(
+        f"{Fore.MAGENTA}  ╚══════════════════════════════════════════════════════╝{Style.RESET_ALL}"
     )
 
 
