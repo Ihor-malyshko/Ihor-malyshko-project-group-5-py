@@ -6,8 +6,7 @@ from address_book import Record
 
 def add_contact(book, args):
     if not args:
-        print("Usage: add <name> [address] [phones] [email] [birthday]")
-        print("Example: add John Kyiv 1234567890 john@email.com 01.01.1990")
+        ui_screens.print_command_usage("contacts", "add")
         return
 
     try:
@@ -26,23 +25,22 @@ def add_contact(book, args):
             record.add_birthday(args[4])
 
         book.add_record(record)
-        print("✅ Contact added successfully")
+        ui_screens.print_success_message("Contact added successfully")
 
     except ValueError as e:
-        print(f"❌ Error: {e}")
+        ui_screens.print_error_message(f"Error: {e}")
 
 
 def edit_contact(book, args):
     if not args:
-        print("Usage: edit <name> [new_address] [phones] [email] [birthday]")
-        print("Example: edit John NewAddress 0987654321 new@email.com 02.02.1992")
+        ui_screens.print_edit_contact_usage("contacts", "edit")
         return
 
     name = args[0]
     record = book.find(name)
 
     if not record:
-        print("❌ Contact not found.")
+        ui_screens.print_error_message("Contact not found in address book")
         return
 
     try:
@@ -58,10 +56,10 @@ def edit_contact(book, args):
         if len(args) > 4:
             record.add_birthday(args[4])
 
-        print("✅ Contact updated successfully!")
+        ui_screens.print_success_message("Contact updated successfully!")
 
     except ValueError as e:
-        print(f"❌ Error while editing contact: {e}")
+        ui_screens.print_error_message(f"Error while editing contact: {e}")
 
 
 def show_upcoming_birthdays(book):
@@ -78,10 +76,10 @@ def show_upcoming_birthdays(book):
             for entry in upcoming:
                 print(f"{entry['name']} — {entry['congratulation_date']}")
         else:
-            print("📭 No upcoming birthdays.")
+            ui_screens.print_no_upcoming_birthdays()
 
     except ValueError:
-        print("❌ Please enter a valid number.")
+        ui_screens.print_error_message("Please enter a valid number.")
 
 
 def search_contact(session, book):
@@ -107,7 +105,7 @@ def search_contact(session, book):
             if any(q.strip() in contact_numbers for q in query_numbers):
                 results.append(record)
     else:
-        print("❌ Invalid choice.")
+        ui_screens.print_error_message("Invalid choice.")
         return
 
     if results:
@@ -115,7 +113,7 @@ def search_contact(session, book):
         for r in results:
             print(r)
     else:
-        print("❌ No contacts found.")
+        ui_screens.print_error_message("Contact not found in address book")
 
 
 def delete_contact(book, args):
@@ -128,7 +126,7 @@ def delete_contact(book, args):
         book.delete(name)
         print("🗑️ Contact deleted.")
     except ValueError:
-        print("❌ Contact not found.")
+        ui_screens.print_error_message("Contact not found in address book.")
 
 
 def show_all_contacts(book):

@@ -4,7 +4,7 @@ from prompt_toolkit.styles import Style as PromptStyle
 from typing import NamedTuple
 
 # Layout settings
-BOX_WIDTH = 58
+BOX_WIDTH = 78
 FULL_WIDTH = BOX_WIDTH + 2
 
 # ANSI regex for width calculation
@@ -21,7 +21,6 @@ cli_style = PromptStyle.from_dict(
 )
 
 
-
 class Colors(NamedTuple):
     green: str
     green_light: str
@@ -32,6 +31,9 @@ class Colors(NamedTuple):
     blue: str
     bright: str
     reset: str
+    red: str
+    success: str
+    error: str
 
 
 COLORS = Colors(
@@ -44,4 +46,7 @@ COLORS = Colors(
     blue=Fore.BLUE,
     bright=Style.BRIGHT,
     reset=Style.RESET_ALL,
+    red=Fore.LIGHTRED_EX,
+    success=Fore.LIGHTGREEN_EX,
+    error=Fore.LIGHTRED_EX,
 )
