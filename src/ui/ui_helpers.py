@@ -36,13 +36,14 @@ def center_line(content: str) -> str:
     right = total_pad - left
     return f"{COLORS.cyan}║{' ' * left}{content}{' ' * right}║"
 
-def parse_input():
+
+def parse_input(session, command_completer):
     """
     Prompt user for input using custom CLI style.
     Returns:
         tuple[str | None, list[str]]: (command, arguments)
     """
-    user_input = prompt(
+    user_input = session.prompt(
         [
             ("class:bracket", "╭─["),
             ("class:prompt", "assistant-terminal"),
@@ -50,6 +51,7 @@ def parse_input():
             ("class:arrow", "╰─>>> "),
         ],
         style=cli_style,
+        completer=command_completer,
     )
 
     if not user_input.strip():

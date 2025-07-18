@@ -1,7 +1,7 @@
 import ui.ui_screens as ui_screens
 from ui.ui_helpers import parse_input
 from ui.ui_screens import print_unknown_command
-from address_book import  Record
+from address_book import Record
 
 
 def add_contact(book, args):
@@ -84,13 +84,13 @@ def show_upcoming_birthdays(book):
         print("❌ Please enter a valid number.")
 
 
-def search_contact(book):
+def search_contact(session, book):
     print("Search contacts (or press Enter to cancel)")
     print("Available search criteria:\n 1. By name\n 2. By phone")
-    choice = input("Choose search criteria (1/2): ").strip()
+    choice = session.prompt("Choose search criteria (1/2): ").strip()
 
     if choice == "1":
-        query = input("Enter full or partial name: ").strip().lower()
+        query = session.prompt("Enter full or partial name: ").strip().lower()
         results = [
             record
             for record in book.data.values()
@@ -99,7 +99,7 @@ def search_contact(book):
 
     elif choice == "2":
         query_numbers = (
-            input("Enter phone number(s) comma-separated: ").strip().split(",")
+            session.prompt("Enter phone number(s) comma-separated: ").strip().split(",")
         )
         results = []
         for record in book.data.values():
@@ -129,6 +129,11 @@ def delete_contact(book, args):
         print("🗑️ Contact deleted.")
     except ValueError:
         print("❌ Contact not found.")
+
+
+def show_all_contacts(book):
+    print("📇 All contacts:")
+    print(book)
 
 
 def contacts_handler(book, args):
