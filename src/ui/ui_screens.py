@@ -2,6 +2,21 @@ from ui.style_settings import COLORS
 from ui.ui_helpers import border, line, center_line, separator
 
 
+def print_main_menu_options():
+    print(separator())
+
+    help_lines = [
+        f"{COLORS.cyan}🔹 Enter {COLORS.green_light}contacts{COLORS.cyan}  - Manage address book",
+        f"{COLORS.cyan}🔹 Enter {COLORS.green_light}notes{COLORS.cyan}     - Work with notes",
+        f"{COLORS.cyan}🔹 Enter {COLORS.green_light}help{COLORS.cyan}      - View available commands",
+        f"{COLORS.cyan}🔹 Enter {COLORS.green_light}exit{COLORS.cyan}      - Save and exit",
+    ]
+    for item in help_lines:
+        print(line(item))
+
+    print(border(top=False))
+
+
 def print_welcome():
     print(border())
     print(
@@ -18,18 +33,7 @@ def print_welcome():
     for item in static_info:
         print(line(item))
 
-    print(separator())
-
-    help_lines = [
-        f"{COLORS.cyan}🔹 Enter {COLORS.green_light}contacts{COLORS.cyan}  - Manage address book",
-        f"{COLORS.cyan}🔹 Enter {COLORS.green_light}notes{COLORS.cyan}     - Work with notes",
-        f"{COLORS.cyan}🔹 Enter {COLORS.green_light}help{COLORS.cyan}      - View available commands",
-        f"{COLORS.cyan}🔹 Enter {COLORS.green_light}exit{COLORS.cyan}      - Save and exit",
-    ]
-    for item in help_lines:
-        print(line(item))
-
-    print(border(top=False))
+    print_main_menu_options()
 
 
 def print_exit_message():
@@ -85,6 +89,7 @@ def handle_contacts_module():
     print(line(f"{COLORS.cyan}🧭  You have entered the CONTACTS module."))
     print(line(f"{COLORS.cyan}➤  Available commands:"))
     print(line(f"{COLORS.cyan}   (Required: <>, Optional: [])"))
+    print()
 
     commands = [
         f"• {COLORS.green_light}add <name> [address] [phones] [email] [birthday]{COLORS.cyan} — Add a new contact",
@@ -94,7 +99,9 @@ def handle_contacts_module():
         f"• {COLORS.green_light}birthdays{COLORS.cyan} — Show upcoming birthdays",
         f"• {COLORS.green_light}show{COLORS.cyan} — Show all saved contacts",
         f"• {COLORS.green_light}back{COLORS.cyan} — Return to main menu",
+        f"• {COLORS.green_light}help{COLORS.cyan} — Show contacts help menu",
     ]
+
     for cmd in commands:
         print(line(cmd))
 
@@ -115,6 +122,7 @@ def handle_notes_module():
         f"• {COLORS.green_light}search [query]{COLORS.cyan}            — Search notes",
         f"• {COLORS.green_light}list-tags{COLORS.cyan}                — List available tags",
         f"• {COLORS.green_light}back{COLORS.cyan}                     — Return to main menu",
+        f"• {COLORS.green_light}help{COLORS.cyan}                     — Show notes help menu",
     ]
     for cmd in commands:
         print(line(cmd))
@@ -123,12 +131,34 @@ def handle_notes_module():
 
 
 def print_help():
-    print("Here must be help menu")
+    print(border())
+    print(line(f"{COLORS.cyan}🧭  MAIN MENU HELP"))
+    print(separator())
+    print(line(f"{COLORS.cyan}Available commands in main context:"))
+
+    commands = [
+        f"• {COLORS.green_light}contacts{COLORS.cyan} — Enter the Contacts module",
+        f"• {COLORS.green_light}notes{COLORS.cyan}    — Enter the Notes module",
+        f"• {COLORS.green_light}hello{COLORS.cyan}    — Get a greeting from the assistant",
+        f"• {COLORS.green_light}help{COLORS.cyan}     — Show this help menu",
+        f"• {COLORS.green_light}exit{COLORS.cyan}     — Save and exit the program",
+    ]
+    for cmd in commands:
+        print(line(cmd))
+
+    print(separator())
+    print(
+        line(
+            f"{COLORS.cyan}🧩  Inside each module, type {COLORS.green_light}help{COLORS.cyan} to see available commands."
+        )
+    )
+    print(border(top=False))
 
 
 # ======================= CONTACTS MODULE USAGE MESSAGES  =======================
 # Dispatches a help message based on module and command.
 # If the module or command is unknown, shows a fallback error message.
+
 
 def print_command_usage(module, command):
     usage_messages = {
@@ -151,6 +181,7 @@ def print_command_usage(module, command):
         usage_messages[module][command]()
     except KeyError:
         print_unknown_command(command)
+
 
 # Shows usage message for 'add' command in contacts module
 def print_add_contact_usage():
