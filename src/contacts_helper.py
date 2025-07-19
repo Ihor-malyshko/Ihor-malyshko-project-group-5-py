@@ -1,5 +1,5 @@
 import ui.ui_screens as ui_screens
-from ui.ui_helpers import parse_input
+from ui.ui_helpers import parse_input, render_table
 from ui.ui_screens import print_unknown_command
 from address_book import Record
 
@@ -118,20 +118,33 @@ def search_contact(session, book):
 
 def delete_contact(book, args):
     if not args:
-        print("Usage: delete <name>")
+        ui_screens.print_command_usage("contacts", "delete")
         return
 
     name = args[0]
     try:
         book.delete(name)
-        print("🗑️ Contact deleted.")
+        ui_screens.print_success_message("Contact deleted.")
     except ValueError:
         ui_screens.print_error_message("Contact not found in address book.")
 
 
 def show_all_contacts(book):
-    print("📇 All contacts:")
-    print(book)
+    data = []
+    for record in book.data.values():
+        data.append(
+        [
+            record.name.value,
+            record.address.value if record.address else "—",
+            ", ".join(p.value for p in record.phones) if record.phones else "—",
+            record.emails[0].value if record.emails else "—",
+            record.birthday.value.strftime("%d.%m.%Y") if record.birthday else "—",
+            record.note.value if record.note else "—",
+        ]
+    )
+
+    headers = ["Name", "Address", "Phone", "Email", "Birthday", "Note"]
+    render_table(data, headers)
 
 
 def contacts_handler(book, args):
