@@ -78,8 +78,6 @@ python bot.py
   .\run.ps1
   ```
 
----
-
 ## 💬 Supported Commands
 
 | Context      | Command                                                 | Arguments / Format               | Description                      |
@@ -119,6 +117,20 @@ python bot.py
 
 - 🔡 **Command Autocomplete**  
   Supports command autocompletion for faster and easier CLI interaction.
+  
+## ✨ CLI Interface & Styling
+
+A futuristic command-line interface with:
+
+- 🌈 Colored text and emoji icons
+- 📦 Custom UI components:
+  - Contact tables with ASCII-style borders
+  - Instruction blocks for command usage
+  - Colored highlighting for arguments, examples, and command names
+- 🎨 Unified message styling for success, error, and info messages
+
+Integrated using [`colorama`](https://pypi.org/project/colorama/) and [`prompt_toolkit`](https://python-prompt-toolkit.readthedocs.io/).
+=======
 
 
 ## 🧪 Example Usage
