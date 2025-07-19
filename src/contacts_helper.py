@@ -5,13 +5,8 @@ from ui.ui_helpers import (
     styled_prompt,
     styled_prompt_with_prefix,
 )
-from ui.ui_screens import (
-    print_message_block,
-    print_error_message,
-    print_success_message,
-)
 from address_book import Record
-from ui.style_settings import COLORS, prompt_style
+from ui.style_settings import COLORS
 
 
 # Define once in your UI module
@@ -75,8 +70,17 @@ def edit_contact(book, args):
         ui_screens.print_error_message(f"Error while editing contact: {e}")
 
 
-def show_upcoming_birthdays(book):  # need style
-    user_input = input("Enter number of days to check: ").strip()
+def show_upcoming_birthdays(book):
+    ui_screens.print_message_block(
+        "🎂",
+        f"{COLORS.cyan}Check for upcoming birthdays",
+        [f"{COLORS.cyan}Enter the number of days ahead to look for birthdays."],
+    )
+
+    user_input = styled_prompt(
+        "<prompt>Enter number of days to check:</prompt> "
+    ).strip()
+
     if not user_input:
         ui_screens.print_success_message("Canceled.")
         return
@@ -84,19 +88,27 @@ def show_upcoming_birthdays(book):  # need style
     try:
         days = int(user_input)
         upcoming = book.get_upcoming_birthdays(days)
+
         if upcoming:
-            print(f"🎉 Birthdays in next {days} days:")
+            ui_screens.print_success_message(f"🎉 Birthdays in next {days} day(s):")
             for entry in upcoming:
-                print(f"{entry['name']} — {entry['congratulation_date']}")
+                print(
+                    f"{COLORS.green_light}{entry['name']} {COLORS.reset}— {COLORS.cyan}{entry['congratulation_date']}{COLORS.reset}"
+                )
         else:
-            ui_screens.print_no_upcoming_birthdays()
+            ui_screens.print_message_block(
+                "📭",
+                f"{COLORS.cyan}No upcoming birthdays",
+                [f"{COLORS.yellow}No contacts have birthdays in the next {days} days."],
+            )
+            ui_screens.handle_contacts_module()
 
     except ValueError:
         ui_screens.print_error_message("Please enter a valid number.")
 
 
 def search_contact(session, book):
-    print_message_block(
+    ui_screens.print_message_block(
         "🔎",
         f"{COLORS.cyan}Search contacts (press Enter to cancel)",
         [
@@ -136,10 +148,10 @@ def search_contact(session, book):
                 results.append(record)
 
     elif choice == "":
-        print_success_message("Search cancelled.")
+        ui_screens.print_success_message("Search cancelled.")
         return
     else:
-        print_error_message("Invalid choice.")
+        ui_screens.print_error_message("Invalid choice.")
         return
 
     if results:
@@ -161,11 +173,11 @@ def search_contact(session, book):
             )
 
         headers = ["Name", "Address", "Phone", "Email", "Birthday", "Note"]
-        print_success_message(f"Found {len(results)} contact(s):")
+        ui_screens.print_success_message(f"Found {len(results)} contact(s):")
         render_table(data, headers)
 
     else:
-        print_error_message("Contact not found in address book.")
+        ui_screens.print_error_message("Contact not found in address book.")
 
 
 def delete_contact(book, args):
@@ -226,4 +238,4 @@ def contacts_handler(book, args):
             print(book)
 
         else:
-            print_unknown_command(command)
+            ui_screens.print_unknown_command(command)
