@@ -1,13 +1,20 @@
 import ui.ui_screens as ui_screens
-from ui.ui_helpers import parse_input
-from ui.ui_screens import print_unknown_command
+from ui.ui_helpers import (
+    parse_input,
+    render_table,
+    styled_prompt,
+    styled_prompt_with_prefix,
+)
 from address_book import Record
+from ui.style_settings import COLORS
+
+
+# Define once in your UI module
 
 
 def add_contact(book, args):
     if not args:
-        print("Usage: add <name> [address] [phones] [email] [birthday]")
-        print("Example: add John Kyiv 1234567890 john@email.com 01.01.1990")
+        ui_screens.print_command_usage("contacts", "add")
         return
 
     try:
@@ -26,23 +33,22 @@ def add_contact(book, args):
             record.add_birthday(args[4])
 
         book.add_record(record)
-        print("✅ Contact added successfully")
+        ui_screens.print_success_message("Contact added successfully")
 
     except ValueError as e:
-        print(f"❌ Error: {e}")
+        ui_screens.print_error_message(f"Error: {e}")
 
 
 def edit_contact(book, args):
     if not args:
-        print("Usage: edit <name> [new_address] [phones] [email] [birthday]")
-        print("Example: edit John NewAddress 0987654321 new@email.com 02.02.1992")
+        ui_screens.print_edit_contact_usage("contacts", "edit")
         return
 
     name = args[0]
     record = book.find(name)
 
     if not record:
-        print("❌ Contact not found.")
+        ui_screens.print_error_message("Contact not found in address book")
         return
 
     try:
@@ -58,39 +64,70 @@ def edit_contact(book, args):
         if len(args) > 4:
             record.add_birthday(args[4])
 
-        print("✅ Contact updated successfully!")
+        ui_screens.print_success_message("Contact updated successfully!")
 
     except ValueError as e:
-        print(f"❌ Error while editing contact: {e}")
+        ui_screens.print_error_message(f"Error while editing contact: {e}")
 
 
 def show_upcoming_birthdays(book):
-    user_input = input("Enter number of days to check: ").strip()
+    ui_screens.print_message_block(
+        "🎂",
+        f"{COLORS.cyan}Check for upcoming birthdays",
+        [f"{COLORS.cyan}Enter the number of days ahead to look for birthdays."],
+    )
+
+    user_input = styled_prompt(
+        "<prompt>Enter number of days to check:</prompt> "
+    ).strip()
+
     if not user_input:
-        print("Canceled.")
+        ui_screens.print_success_message("Canceled.")
         return
 
     try:
         days = int(user_input)
         upcoming = book.get_upcoming_birthdays(days)
+
         if upcoming:
-            print(f"🎉 Birthdays in next {days} days:")
+            ui_screens.print_success_message(f"🎉 Birthdays in next {days} day(s):")
             for entry in upcoming:
-                print(f"{entry['name']} — {entry['congratulation_date']}")
+                print(
+                    f"{COLORS.green_light}{entry['name']} {COLORS.reset}— {COLORS.cyan}{entry['congratulation_date']}{COLORS.reset}"
+                )
         else:
-            print("📭 No upcoming birthdays.")
+            ui_screens.print_message_block(
+                "📭",
+                f"{COLORS.cyan}No upcoming birthdays",
+                [f"{COLORS.yellow}No contacts have birthdays in the next {days} days."],
+            )
+            ui_screens.handle_contacts_module()
 
     except ValueError:
-        print("❌ Please enter a valid number.")
+        ui_screens.print_error_message("Please enter a valid number.")
 
 
 def search_contact(session, book):
-    print("Search contacts (or press Enter to cancel)")
-    print("Available search criteria:\n 1. By name\n 2. By phone")
-    choice = session.prompt("Choose search criteria (1/2): ").strip()
+    ui_screens.print_message_block(
+        "🔎",
+        f"{COLORS.cyan}Search contacts (press Enter to cancel)",
+        [
+            f"{COLORS.cyan}1. By {COLORS.green}name",
+            f"{COLORS.cyan}2. By {COLORS.green}phone",
+        ],
+    )
+
+    choice = styled_prompt("<prompt>Choose option (1/2):</prompt> ")
+
+    results = []
 
     if choice == "1":
-        query = session.prompt("Enter full or partial name: ").strip().lower()
+        query = (
+            styled_prompt_with_prefix(session, "Enter full or partial name: ")
+            .strip()
+            .lower()
+        )
+
         results = [
             record
             for record in book.data.values()
@@ -99,41 +136,79 @@ def search_contact(session, book):
 
     elif choice == "2":
         query_numbers = (
-            session.prompt("Enter phone number(s) comma-separated: ").strip().split(",")
+            styled_prompt_with_prefix(
+                session, "Enter phone number(s) comma-separated: "
+            )
+            .strip()
+            .split(",")
         )
-        results = []
         for record in book.data.values():
             contact_numbers = [p.value for p in record.phones]
             if any(q.strip() in contact_numbers for q in query_numbers):
                 results.append(record)
+
+    elif choice == "":
+        ui_screens.print_success_message("Search cancelled.")
+        return
     else:
-        print("❌ Invalid choice.")
+        ui_screens.print_error_message("Invalid choice.")
         return
 
     if results:
-        print(f"🔍 Found {len(results)} contact(s):")
-        for r in results:
-            print(r)
+        data = []
+        for record in results:
+            data.append(
+                [
+                    record.name.value,
+                    record.address.value if record.address else "—",
+                    ", ".join(p.value for p in record.phones) if record.phones else "—",
+                    record.emails[0].value if record.emails else "—",
+                    (
+                        record.birthday.value.strftime("%d.%m.%Y")
+                        if record.birthday
+                        else "—"
+                    ),
+                    record.note.value if record.note else "—",
+                ]
+            )
+
+        headers = ["Name", "Address", "Phone", "Email", "Birthday", "Note"]
+        ui_screens.print_success_message(f"Found {len(results)} contact(s):")
+        render_table(data, headers)
+
     else:
-        print("❌ No contacts found.")
+        ui_screens.print_error_message("Contact not found in address book.")
 
 
 def delete_contact(book, args):
     if not args:
-        print("Usage: delete <name>")
+        ui_screens.print_command_usage("contacts", "delete")
         return
 
     name = args[0]
     try:
         book.delete(name)
-        print("🗑️ Contact deleted.")
+        ui_screens.print_success_message("Contact deleted.")
     except ValueError:
-        print("❌ Contact not found.")
+        ui_screens.print_error_message("Contact not found in address book.")
 
 
 def show_all_contacts(book):
-    print("📇 All contacts:")
-    print(book)
+    data = []
+    for record in book.data.values():
+        data.append(
+            [
+                record.name.value,
+                record.address.value if record.address else "—",
+                ", ".join(p.value for p in record.phones) if record.phones else "—",
+                record.emails[0].value if record.emails else "—",
+                record.birthday.value.strftime("%d.%m.%Y") if record.birthday else "—",
+                record.note.value if record.note else "—",
+            ]
+        )
+
+    headers = ["Name", "Address", "Phone", "Email", "Birthday", "Note"]
+    render_table(data, headers)
 
 
 def contacts_handler(book, args):
@@ -163,4 +238,4 @@ def contacts_handler(book, args):
             print(book)
 
         else:
-            print_unknown_command(command)
+            ui_screens.print_unknown_command(command)

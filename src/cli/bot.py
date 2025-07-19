@@ -47,10 +47,9 @@ class Bot:
             "contacts": lambda _: self.context_manager.switch_context(
                 Context.CONTACTS, self.handle_contacts_command
             ),
-            "n": lambda _: self.context_manager.switch_context(
+            "notes": lambda _: self.context_manager.switch_context(
                 Context.NOTES, self.handle_notes_command
             ),
-            "close": lambda _: self.save_and_exit(),
             "exit": lambda _: self.save_and_exit(),
             "hello": lambda _: ui_screens.print_greeting_response(),
             "help": lambda _: ui_screens.print_help(),
@@ -67,18 +66,20 @@ class Bot:
                 contacts.search_contact, self.session, self.address_book
             ),
             "show": self.wrap_handler(contacts.show_all_contacts, self.address_book),
-            "back": lambda _: self.context_manager.switch_context(Context.MAIN),
+            "back": lambda _: self._back_to_main(),
             "exit": lambda _: self.save_and_exit(),
+            "help": lambda _: ui_screens.handle_contacts_module(),
         }
 
         self.notes_command_handlers: Dict[str, Callable] = {
             # "add": self.wrap_handler(notes.add_note, self.address_book),
             # "edit": self.wrap_handler(notes.edit_note, self.address_book),
             # "delete": self.wrap_handler(notes.delete_note, self.address_book),
-            # "search": self.wrap_handler(contacts.search_notes, self.address_book),
+            # "search": self.wrap_handler(notes.search_notes, self.address_book),
             # "show": self.wrap_handler(notes.show_notes, self.address_book),
             "exit": lambda _: self.save_and_exit(),
             "back": lambda _: self.context_manager.switch_context(Context.MAIN),
+            "help": lambda _: ui_screens.handle_notes_module(),
         }
 
         self.commands_by_context = {
@@ -112,6 +113,10 @@ class Bot:
         ui_screens.print_exit_message()
         sys.exit(0)
 
+    def _back_to_main(self):
+        self.context_manager.switch_context(Context.MAIN)
+        ui_screens.print_main_menu_options()
+
     def handle_notes_command(self) -> None:
         ui_screens.handle_notes_module()
 
@@ -128,9 +133,7 @@ class Bot:
                 )
                 if command:
                     self.command_processor.process_command(
-                        command,
-                        args,
-                        self.context_manager.current_context
+                        command, args, self.context_manager.current_context
                     )
             except KeyboardInterrupt:
                 self.save_and_exit()

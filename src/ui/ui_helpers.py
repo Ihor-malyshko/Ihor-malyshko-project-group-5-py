@@ -1,6 +1,7 @@
 from prompt_toolkit import prompt
+from prompt_toolkit.formatted_text import HTML
 from wcwidth import wcswidth
-from ui.style_settings import FULL_WIDTH, ANSI_ESCAPE_RE, COLORS, cli_style
+from ui.style_settings import FULL_WIDTH, ANSI_ESCAPE_RE, COLORS, cli_style, prompt_style
 
 
 def strip_ansi(text: str) -> str:
@@ -67,3 +68,73 @@ def parse_input(session, command_completer):
 
     cmd, *args = user_input.strip().split()
     return cmd.lower(), args
+
+
+def render_table(data, headers=None, row_color=None):
+    """
+    data: list of lists (rows)
+    headers: list of column names
+    row_color: optional color for rows
+    """
+    from ui.style_settings import COLORS
+
+    if not data:
+        print(f"{COLORS.yellow}⚠️  No data to display.{COLORS.reset}")
+        return
+
+    # If headers not provided — use keys from first row if it's a dict
+    if headers is None:
+        if isinstance(data[0], dict):
+            headers = list(data[0].keys())
+            data = [[str(row.get(col, "—")) for col in headers] for row in data]
+        else:
+            headers = [f"Column {i+1}" for i in range(len(data[0]))]
+
+    # Determine max column widths
+    col_widths = [len(h) for h in headers]
+    for row in data:
+        for i, cell in enumerate(row):
+            col_widths[i] = max(col_widths[i], len(str(cell)))
+
+    def horizontal_line(left, middle, right, fill="─"):
+        return left + middle.join(fill * (w + 2) for w in col_widths) + right
+
+    def format_row(row, sep="│", color=None):
+        styled = []
+        for i, cell in enumerate(row):
+            c = str(cell)
+            styled.append(f" {color or ''}{c:<{col_widths[i]}}{COLORS.reset} ")
+        return sep + sep.join(styled) + sep
+
+    # Print table
+    print(horizontal_line("┌", "┬", "┐"))
+    print(format_row(headers, color=COLORS.cyan + COLORS.bright))
+    print(horizontal_line("├", "┼", "┤"))
+
+    for row in data:
+        print(format_row(row, color=row_color or COLORS.green_light))
+
+    print(horizontal_line("└", "┴", "┘"))
+
+
+def styled_prompt(message: str) -> str:
+    """
+    Displays a styled prompt input using prompt_toolkit.
+
+    :param message: HTML-formatted string (e.g., '<prompt>Choose option:</prompt>')
+    :return: User input as string
+    """
+    return prompt(HTML(message), style=prompt_style)
+
+
+def styled_prompt_with_prefix(session, label: str) -> str:
+    return session.prompt(
+        [
+            ("class:bracket", "╭─["),
+            ("class:prompt", "assistant-terminal"),
+            ("class:bracket", "]\n"),
+            ("class:arrow", "╰─>>> "),
+            ("class:prompt", label),
+        ],
+        style=prompt_style,
+    )
