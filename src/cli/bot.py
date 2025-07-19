@@ -47,10 +47,9 @@ class Bot:
             "contacts": lambda _: self.context_manager.switch_context(
                 Context.CONTACTS, self.handle_contacts_command
             ),
-            "n": lambda _: self.context_manager.switch_context(
+            "notes": lambda _: self.context_manager.switch_context(
                 Context.NOTES, self.handle_notes_command
             ),
-            "close": lambda _: self.save_and_exit(),
             "exit": lambda _: self.save_and_exit(),
             "hello": lambda _: ui_screens.print_greeting_response(),
             "help": lambda _: ui_screens.print_help(),
@@ -76,7 +75,7 @@ class Bot:
             # "add": self.wrap_handler(notes.add_note, self.address_book),
             # "edit": self.wrap_handler(notes.edit_note, self.address_book),
             # "delete": self.wrap_handler(notes.delete_note, self.address_book),
-            # "search": self.wrap_handler(contacts.search_notes, self.address_book),
+            # "search": self.wrap_handler(notes.search_notes, self.address_book),
             # "show": self.wrap_handler(notes.show_notes, self.address_book),
             "exit": lambda _: self.save_and_exit(),
             "back": lambda _: self.context_manager.switch_context(Context.MAIN),
