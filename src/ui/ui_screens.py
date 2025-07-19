@@ -113,7 +113,9 @@ def handle_notes_module():
     print(line(f"{COLORS.cyan}📒  MODULE: NOTES"))
     print(separator())
     print(line(f"{COLORS.cyan}🧭  You have entered the NOTES module."))
-    print(line(f"{COLORS.cyan}➤  Available commands:"))
+    print(line(f"{COLORS.cyan}➤  Available commands (Required: <>, Optional: []):"))
+    print(line(f"{COLORS.cyan}"))
+
 
     commands = [
         f"• {COLORS.green_light}add [note text]{COLORS.cyan}           — Add new note",

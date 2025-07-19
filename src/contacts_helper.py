@@ -1,7 +1,20 @@
 import ui.ui_screens as ui_screens
-from ui.ui_helpers import parse_input, render_table
-from ui.ui_screens import print_unknown_command
+from ui.ui_helpers import (
+    parse_input,
+    render_table,
+    styled_prompt,
+    styled_prompt_with_prefix,
+)
+from ui.ui_screens import (
+    print_message_block,
+    print_error_message,
+    print_success_message,
+)
 from address_book import Record
+from ui.style_settings import COLORS, prompt_style
+
+
+# Define once in your UI module
 
 
 def add_contact(book, args):
@@ -62,10 +75,10 @@ def edit_contact(book, args):
         ui_screens.print_error_message(f"Error while editing contact: {e}")
 
 
-def show_upcoming_birthdays(book):
+def show_upcoming_birthdays(book):  # need style
     user_input = input("Enter number of days to check: ").strip()
     if not user_input:
-        print("Canceled.")
+        ui_screens.print_success_message("Canceled.")
         return
 
     try:
@@ -83,12 +96,26 @@ def show_upcoming_birthdays(book):
 
 
 def search_contact(session, book):
-    print("Search contacts (or press Enter to cancel)")
-    print("Available search criteria:\n 1. By name\n 2. By phone")
-    choice = session.prompt("Choose search criteria (1/2): ").strip()
+    print_message_block(
+        "🔎",
+        f"{COLORS.cyan}Search contacts (press Enter to cancel)",
+        [
+            f"{COLORS.cyan}1. By {COLORS.green}name",
+            f"{COLORS.cyan}2. By {COLORS.green}phone",
+        ],
+    )
+
+    choice = styled_prompt("<prompt>Choose option (1/2):</prompt> ")
+
+    results = []
 
     if choice == "1":
-        query = session.prompt("Enter full or partial name: ").strip().lower()
+        query = (
+            styled_prompt_with_prefix(session, "Enter full or partial name: ")
+            .strip()
+            .lower()
+        )
+
         results = [
             record
             for record in book.data.values()
@@ -97,23 +124,48 @@ def search_contact(session, book):
 
     elif choice == "2":
         query_numbers = (
-            session.prompt("Enter phone number(s) comma-separated: ").strip().split(",")
+            styled_prompt_with_prefix(
+                session, "Enter phone number(s) comma-separated: "
+            )
+            .strip()
+            .split(",")
         )
-        results = []
         for record in book.data.values():
             contact_numbers = [p.value for p in record.phones]
             if any(q.strip() in contact_numbers for q in query_numbers):
                 results.append(record)
+
+    elif choice == "":
+        print_success_message("Search cancelled.")
+        return
     else:
-        ui_screens.print_error_message("Invalid choice.")
+        print_error_message("Invalid choice.")
         return
 
     if results:
-        print(f"🔍 Found {len(results)} contact(s):")
-        for r in results:
-            print(r)
+        data = []
+        for record in results:
+            data.append(
+                [
+                    record.name.value,
+                    record.address.value if record.address else "—",
+                    ", ".join(p.value for p in record.phones) if record.phones else "—",
+                    record.emails[0].value if record.emails else "—",
+                    (
+                        record.birthday.value.strftime("%d.%m.%Y")
+                        if record.birthday
+                        else "—"
+                    ),
+                    record.note.value if record.note else "—",
+                ]
+            )
+
+        headers = ["Name", "Address", "Phone", "Email", "Birthday", "Note"]
+        print_success_message(f"Found {len(results)} contact(s):")
+        render_table(data, headers)
+
     else:
-        ui_screens.print_error_message("Contact not found in address book")
+        print_error_message("Contact not found in address book.")
 
 
 def delete_contact(book, args):
@@ -133,15 +185,15 @@ def show_all_contacts(book):
     data = []
     for record in book.data.values():
         data.append(
-        [
-            record.name.value,
-            record.address.value if record.address else "—",
-            ", ".join(p.value for p in record.phones) if record.phones else "—",
-            record.emails[0].value if record.emails else "—",
-            record.birthday.value.strftime("%d.%m.%Y") if record.birthday else "—",
-            record.note.value if record.note else "—",
-        ]
-    )
+            [
+                record.name.value,
+                record.address.value if record.address else "—",
+                ", ".join(p.value for p in record.phones) if record.phones else "—",
+                record.emails[0].value if record.emails else "—",
+                record.birthday.value.strftime("%d.%m.%Y") if record.birthday else "—",
+                record.note.value if record.note else "—",
+            ]
+        )
 
     headers = ["Name", "Address", "Phone", "Email", "Birthday", "Note"]
     render_table(data, headers)

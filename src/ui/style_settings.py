@@ -10,12 +10,21 @@ FULL_WIDTH = BOX_WIDTH + 2
 # ANSI regex for width calculation
 ANSI_ESCAPE_RE = re.compile(r"\x1B[@-_][0-?]*[ -/]*[@-~]")
 
-# Prompt style
+# Prompt styles
 cli_style = PromptStyle.from_dict(
     {
         "prompt": "#ff00ff bold",
         "bracket": "#00ffff",
         "arrow": "#00ff00 bold",
+        "": "#00cc44 bold",
+    }
+)
+
+prompt_style = PromptStyle.from_dict(
+    {
+        "prompt": "bold ansicyan",
+        "bracket": "ansiblue",
+        "input": "#00cc44 bold",
         "": "#00cc44 bold",
     }
 )

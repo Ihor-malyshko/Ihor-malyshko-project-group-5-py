@@ -1,6 +1,7 @@
 from prompt_toolkit import prompt
+from prompt_toolkit.formatted_text import HTML
 from wcwidth import wcswidth
-from ui.style_settings import FULL_WIDTH, ANSI_ESCAPE_RE, COLORS, cli_style
+from ui.style_settings import FULL_WIDTH, ANSI_ESCAPE_RE, COLORS, cli_style, prompt_style
 
 
 def strip_ansi(text: str) -> str:
@@ -114,3 +115,26 @@ def render_table(data, headers=None, row_color=None):
         print(format_row(row, color=row_color or COLORS.green_light))
 
     print(horizontal_line("└", "┴", "┘"))
+
+
+def styled_prompt(message: str) -> str:
+    """
+    Displays a styled prompt input using prompt_toolkit.
+
+    :param message: HTML-formatted string (e.g., '<prompt>Choose option:</prompt>')
+    :return: User input as string
+    """
+    return prompt(HTML(message), style=prompt_style)
+
+
+def styled_prompt_with_prefix(session, label: str) -> str:
+    return session.prompt(
+        [
+            ("class:bracket", "╭─["),
+            ("class:prompt", "assistant-terminal"),
+            ("class:bracket", "]\n"),
+            ("class:arrow", "╰─>>> "),
+            ("class:prompt", label),
+        ],
+        style=prompt_style,
+    )
