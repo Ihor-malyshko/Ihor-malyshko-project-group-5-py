@@ -1,4 +1,4 @@
-from prompt_toolkit.completion import WordCompleter
+from cli.command_completer import CommandCompleter
 from typing import Callable, Dict, Optional, List
 from cli.enums import Context
 from cli.messages import Messages
@@ -10,7 +10,7 @@ class ContextManager:
     def __init__(self):
         self.current_context = Context.MAIN
         self.commands_by_context: Dict[Context, List[str]] = {}
-        self.command_completer: Optional[WordCompleter] = None
+        self.command_completer: Optional[CommandCompleter] = None
 
     def register_commands(self, context: Context, commands: List[str]) -> None:
         """
@@ -45,4 +45,4 @@ class ContextManager:
     def _update_completer(self) -> None:
         """Update command completer for current context."""
         commands = self.commands_by_context.get(self.current_context, [])
-        self.command_completer = WordCompleter(commands, ignore_case=True)
+        self.command_completer = CommandCompleter(commands)
