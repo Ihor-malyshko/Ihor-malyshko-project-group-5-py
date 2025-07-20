@@ -3,6 +3,7 @@ import inspect
 from typing import Callable, Dict, Optional, List
 
 from prompt_toolkit import PromptSession
+from prompt_toolkit.shortcuts.prompt import CompleteStyle
 
 import ui.ui_screens as ui_screens
 from ui.ui_helpers import parse_input
@@ -13,14 +14,19 @@ from cli.enums import Context
 
 from cli.command_processor import CommandProcessor
 from cli.context_manager import ContextManager
+from cli.keyboard_layout import KEYBOARD_LAYOUT
 
 
 class Bot:
     def __init__(self):
-        self.session = PromptSession()
         self.address_book = storage.load_data()
         self.context_manager = ContextManager()
         self.command_processor = CommandProcessor(self.context_manager)
+        self.session = PromptSession(
+            completer=self.context_manager.command_completer,
+            complete_while_typing=True,
+            complete_style=CompleteStyle.COLUMN,
+        )
         self._initialize_commands()
 
         self.context_manager.register_commands(
@@ -81,8 +87,12 @@ class Bot:
             "add": self.wrap_handler(notes.add_note, self.address_book),
             "edit": self.wrap_handler(notes.edit_note, self.address_book),
             "delete": self.wrap_handler(notes.delete_note, self.address_book),
-            "search": self.wrap_handler(notes.search_contacts_by_tag, self.address_book),
-            "show": self.wrap_handler(notes.show_contacts_with_notes, self.address_book),
+            "search": self.wrap_handler(
+                notes.search_contacts_by_tag, self.address_book
+            ),
+            "show": self.wrap_handler(
+                notes.show_contacts_with_notes, self.address_book
+            ),
             "exit": lambda _: self.save_and_exit(),
             "back": lambda _: self.context_manager.switch_context(Context.MAIN),
             "help": lambda _: ui_screens.handle_notes_module(),
@@ -133,6 +143,9 @@ class Bot:
     def handle_contacts_command(self) -> None:
         ui_screens.handle_contacts_module()
 
+    def _normalize_command(self, command: str) -> str:
+        return command.lower().translate(KEYBOARD_LAYOUT)
+
     def run(self) -> None:
         ui_screens.print_welcome()
 
@@ -142,8 +155,9 @@ class Bot:
                     self.session, self.context_manager.command_completer
                 )
                 if command:
+                    normalized_command = self._normalize_command(command)
                     self.command_processor.process_command(
-                        command, args, self.context_manager.current_context
+                        normalized_command, args, self.context_manager.current_context
                     )
             except KeyboardInterrupt:
                 self.save_and_exit()

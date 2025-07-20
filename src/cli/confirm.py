@@ -21,6 +21,8 @@ def confirm(question: str) -> bool:
 
     @bindings.add("y")
     @bindings.add("Y")
+    @bindings.add("н")  # Cyrillic equivalent of 'y' key in QWERTY
+    @bindings.add("Н")
     def _(event):
         nonlocal result
         result = True
@@ -28,6 +30,8 @@ def confirm(question: str) -> bool:
 
     @bindings.add("n")
     @bindings.add("N")
+    @bindings.add("т")  # Cyrillic equivalent of 'n' key in QWERTY
+    @bindings.add("Т")
     def _(event):
 
         nonlocal result
