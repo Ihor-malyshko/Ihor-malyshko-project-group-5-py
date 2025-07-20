@@ -11,6 +11,7 @@ def print_main_menu_options():
         f"{COLORS.cyan}🔹 Enter {COLORS.green_light}notes{COLORS.cyan}                                                 - Work with notes",
         f"{COLORS.cyan}🔹 Enter {COLORS.green_light}help{COLORS.cyan}                                          - View available commands",
         f"{COLORS.cyan}🔹 Enter {COLORS.green_light}exit{COLORS.cyan}                                                    - Save and exit",
+        f"{COLORS.cyan}🔹 Enter {COLORS.green_light}demo{COLORS.cyan}                                                    - Run demo mode",
     ]
     for item in help_lines:
         print(line(item))
@@ -152,12 +153,12 @@ def print_help():
     for cmd in commands:
         print(line(cmd))
 
-    print(separator())
-    print(
-        line(
-            f"{COLORS.cyan}🧩  Inside each module, type {COLORS.green_light}help{COLORS.cyan} to see available commands."
-        )
-    )
+    # print(separator())
+    # print(
+    #     line(
+    #         f"{COLORS.cyan}🧩  Inside each module, type {COLORS.green_light}help{COLORS.cyan} to see available commands."
+    #     )
+    # )
     print(border(top=False))
 
 

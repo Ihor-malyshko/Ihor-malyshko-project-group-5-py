@@ -3,7 +3,8 @@ from datetime import datetime, timedelta
 import re
 from note import Note 
 
-# -------------------- КЛАСИ ПОЛІВ --------------------
+
+# -------------------- FIELD CLASSES --------------------
 
 class Field:
     def __init__(self, value):
@@ -47,7 +48,7 @@ class Birthday(Field):
     def __str__(self):
         return self.value.strftime("%d.%m.%Y")
 
-# -------------------- КЛАС ЗАПИСУ --------------------
+# -------------------- RECORD CLASS --------------------
 
 class Record:
     def __init__(self, name):
@@ -69,7 +70,7 @@ class Record:
 
     def add_birthday(self, birthday_str):
         self.birthday = Birthday(birthday_str)
-    
+
     def add_note(self, note):
         self.note = Note(note)
     def get_note(self):
@@ -86,7 +87,7 @@ class Record:
         note = self.note if self.note else "No note"
         return f"Contact name: {name}, address: {address}, phone: {phones}, email: {emails}, birthday: {birthday}, note: {note}"
 
-# -------------------- АДРЕСНА КНИГА --------------------
+# -------------------- ADDRESS BOOK--------------------
 
 class AddressBook(UserDict):
     def add_record(self, record):
