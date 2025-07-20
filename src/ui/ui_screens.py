@@ -1,3 +1,4 @@
+from demo import print_demo
 from ui.style_settings import COLORS
 from ui.ui_helpers import border, line, center_line, separator
 
@@ -6,10 +7,10 @@ def print_main_menu_options():
     print(separator())
 
     help_lines = [
-        f"{COLORS.cyan}🔹 Enter {COLORS.green_light}contacts{COLORS.cyan}  - Manage address book",
-        f"{COLORS.cyan}🔹 Enter {COLORS.green_light}notes{COLORS.cyan}     - Work with notes",
-        f"{COLORS.cyan}🔹 Enter {COLORS.green_light}help{COLORS.cyan}      - View available commands",
-        f"{COLORS.cyan}🔹 Enter {COLORS.green_light}exit{COLORS.cyan}      - Save and exit",
+        f"{COLORS.cyan}🔹 Enter {COLORS.green_light}contacts{COLORS.cyan}                                          - Manage address book",
+        f"{COLORS.cyan}🔹 Enter {COLORS.green_light}notes{COLORS.cyan}                                                 - Work with notes",
+        f"{COLORS.cyan}🔹 Enter {COLORS.green_light}help{COLORS.cyan}                                          - View available commands",
+        f"{COLORS.cyan}🔹 Enter {COLORS.green_light}exit{COLORS.cyan}                                                    - Save and exit",
     ]
     for item in help_lines:
         print(line(item))
@@ -75,11 +76,12 @@ def print_greeting_response():
     lines = [
         f"{COLORS.cyan}🤖  Hello, human. I'm standing by.",
         f"{COLORS.cyan}➤  Here's what I can help you with:",
+        f"{COLORS.cyan}   - {COLORS.green_light}Contacts{COLORS.cyan} for managing your address book",
+        f"{COLORS.cyan}   - {COLORS.green_light}Notes{COLORS.cyan} for keeping track of important information about contacts",
     ]
     for l in lines:
         print(line(l))
     print(separator())
-    print("Here must be help menu")  # Replace with call to real help menu
 
 
 def handle_contacts_module():
@@ -92,14 +94,15 @@ def handle_contacts_module():
  
 
     commands = [
-        f"• {COLORS.green_light}add <name> [address] [phones] [email] [birthday]{COLORS.cyan} — Add a new contact",
-        f"• {COLORS.green_light}edit <name> [new_address] [phones] [email] [birthday]{COLORS.cyan} — Edit existing contact",
-        f"• {COLORS.green_light}delete <name>{COLORS.cyan} — Delete a contact",
-        f"• {COLORS.green_light}search{COLORS.cyan} — Search contacts by name or phone",
-        f"• {COLORS.green_light}birthdays{COLORS.cyan} — Show upcoming birthdays",
-        f"• {COLORS.green_light}show{COLORS.cyan} — Show all saved contacts",
-        f"• {COLORS.green_light}back{COLORS.cyan} — Return to main menu",
-        f"• {COLORS.green_light}help{COLORS.cyan} — Show contacts help menu",
+        f"• {COLORS.green_light}add <name> [address] [phones] [email] [birthday]{COLORS.cyan}           — Add a new contact",
+        f"• {COLORS.green_light}edit <name> [new_address] [phones] [email] [birthday]{COLORS.cyan}  — Edit existing contact",
+        f"• {COLORS.green_light}delete <name>{COLORS.cyan}                                               — Delete a contact",
+        f"• {COLORS.green_light}search{COLORS.cyan}                                      — Search contacts by name or phone",
+        f"• {COLORS.green_light}birthdays{COLORS.cyan}                                            — Show upcoming birthdays",
+        f"• {COLORS.green_light}show{COLORS.cyan}                                                 — Show all saved contacts",
+        f"• {COLORS.green_light}back{COLORS.cyan}                                                     — Return to main menu",
+        f"• {COLORS.green_light}help{COLORS.cyan}                                                 — Show contacts help menu",
+        f"• {COLORS.green_light}notes{COLORS.cyan}                                             — Quick switch to notes menu",
     ]
 
     for cmd in commands:
@@ -118,13 +121,14 @@ def handle_notes_module():
 
 
     commands = [
-        f"• {COLORS.green_light}add [note text]{COLORS.cyan}           — Add new note",
-        f"• {COLORS.green_light}edit [note id]{COLORS.cyan}            — Edit a note",
-        f"• {COLORS.green_light}delete [note id]{COLORS.cyan}          — Delete a note",
-        f"• {COLORS.green_light}search [query]{COLORS.cyan}            — Search notes",
-        f"• {COLORS.green_light}list-tags{COLORS.cyan}                — List available tags",
-        f"• {COLORS.green_light}back{COLORS.cyan}                     — Return to main menu",
-        f"• {COLORS.green_light}help{COLORS.cyan}                     — Show notes help menu",
+        f"• {COLORS.green_light}add [note text]{COLORS.cyan}                                                 — Add new note",
+        f"• {COLORS.green_light}edit [note id]{COLORS.cyan}                                                   — Edit a note",
+        f"• {COLORS.green_light}delete [note id]{COLORS.cyan}                                               — Delete a note",
+        f"• {COLORS.green_light}search [query]{COLORS.cyan}                                                  — Search notes",
+        f"• {COLORS.green_light}list-tags{COLORS.cyan}                                                — List available tags",
+        f"• {COLORS.green_light}back{COLORS.cyan}                                                     — Return to main menu",
+        f"• {COLORS.green_light}help{COLORS.cyan}                                                    — Show notes help menu",
+        f"• {COLORS.green_light}contacts{COLORS.cyan}                                       — Quick switch to contacts menu",
     ]
     for cmd in commands:
         print(line(cmd))
@@ -139,11 +143,11 @@ def print_help():
     print(line(f"{COLORS.cyan}Available commands in main context:"))
 
     commands = [
-        f"• {COLORS.green_light}contacts{COLORS.cyan} — Enter the Contacts module",
-        f"• {COLORS.green_light}notes{COLORS.cyan}    — Enter the Notes module",
-        f"• {COLORS.green_light}hello{COLORS.cyan}    — Get a greeting from the assistant",
-        f"• {COLORS.green_light}help{COLORS.cyan}     — Show this help menu",
-        f"• {COLORS.green_light}exit{COLORS.cyan}     — Save and exit the program",
+        f"• {COLORS.green_light}contacts{COLORS.cyan}                                           — Enter the Contacts module",
+        f"• {COLORS.green_light}notes{COLORS.cyan}                                                 — Enter the Notes module",
+        f"• {COLORS.green_light}hello{COLORS.cyan}                                      — Get a greeting from the assistant",
+        f"• {COLORS.green_light}help{COLORS.cyan}                                                     — Show this help menu",
+        f"• {COLORS.green_light}exit{COLORS.cyan}                                               — Save and exit the program",
     ]
     for cmd in commands:
         print(line(cmd))
@@ -279,3 +283,7 @@ def print_message_block(title_emoji, title, body_lines):
 
 
 # ======================= END =======================
+
+
+def show_demo():
+    print_demo()
