@@ -12,7 +12,6 @@ from utils import convert_to_data
 
 def wrap_args_handler(args):
     full_text = " ".join(args)
-    print(f"add_note, full_text: {full_text}")
     
     # Split by comma and handle cases with missing parts
     parts = full_text.split(",")
@@ -35,52 +34,36 @@ def wrap_args_handler(args):
 def add_note(book, args):
     name, tags, description = wrap_args_handler(args)
     
-    # Split by comma and handle cases with missing parts
-    parts = full_text.split(",")
-    
-    # Default values
-    name = ""
-    tags = ""
-    description = ""
-    
-    # Extract parts based on what's available
-    if len(parts) >= 1:
-        name = parts[0].strip()
-    if len(parts) >= 2:
-        tags = parts[1].strip()
-    if len(parts) >= 3:
-        description = parts[2].strip()
-    
-    print(f"add_note, name: {name}, tags: {tags}, description: {description}")
     
     # Verify that we have at least a name
     if not name:
-        print("❌ Contact name is required.")
+        ui_screens.print_error_message("Contact name is required.")
+
         return
     
     record = book.find(name)
     if not record:
-        print(f"❌ Contact '{name}' not found.")
+        ui_screens.print_error_message(f"Contact '{name}' not found.")
         return
     
     # Create note even if tags or description are empty
     note = (tags, description)
     record.add_note(note)
-    print("Note added:", note)
+    ui_screens.print_success_message("Note added successfully")
     return
 
 def edit_note(book, args):
   name, tags, description = wrap_args_handler(args)
   record = book.find(name)
   if not record:
-      print(f"❌ Contact '{name}' not found.")
+      ui_screens.print_error_message(f"Contact '{name}' not found.")
       return
   if not hasattr(record, 'note') or record.note is None:
-      print(f"❌ Contact '{name}' has no note to edit.")
+      ui_screens.print_error_message(f"Contact '{name}' has no note to edit.")
       return
 
   record.add_note((tags, description))
-  print(f"edit_note, args: {args}")
+  ui_screens.print_success_message("Note edited successfully")
   return
 
 
@@ -88,10 +71,10 @@ def delete_note(book, args):
   name = args[0]
   record = book.find(name)
   if not record:
-      print(f"❌ Contact '{name}' not found.")
+      ui_screens.print_error_message(f"Contact '{name}' not found.")
       return
   record.note = None
-  print(f"Note for contact '{name}' deleted.")
+  ui_screens.print_success_message(f"Note for contact '{name}' deleted.")
   return
 
 
@@ -123,7 +106,7 @@ def show_contacts_with_notes(book):
             results.append(record)
 
     if not results:
-        print("❌ No contacts with notes found.")
+        ui_screens.print_error_message("No contacts with notes found.")
         return
       
     
