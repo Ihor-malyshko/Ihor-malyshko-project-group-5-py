@@ -168,13 +168,14 @@ def search_contact(session, book):
                         if record.birthday
                         else "—"
                     ),
-                    record.note.value if record.note else "—",
+                record.note.description if record.note else "—",
+                record.note.tags if record.note else "—",
                 ]
             )
 
-        headers = ["Name", "Address", "Phone", "Email", "Birthday", "Note"]
+        # headers = ["Name", "Address", "Phone", "Email", "Birthday", "Note"]
         ui_screens.print_success_message(f"Found {len(results)} contact(s):")
-        render_table(data, headers)
+        render_table(data)
 
     else:
         ui_screens.print_error_message("Contact not found in address book.")
@@ -203,12 +204,12 @@ def show_all_contacts(book):
                 ", ".join(p.value for p in record.phones) if record.phones else "—",
                 record.emails[0].value if record.emails else "—",
                 record.birthday.value.strftime("%d.%m.%Y") if record.birthday else "—",
-                record.note.value if record.note else "—",
+                record.note.description if record.note else "—",
+                record.note.tags if record.note else "—",
             ]
         )
 
-    headers = ["Name", "Address", "Phone", "Email", "Birthday", "Note"]
-    render_table(data, headers)
+    render_table(data)
 
 
 def contacts_handler(book, args):

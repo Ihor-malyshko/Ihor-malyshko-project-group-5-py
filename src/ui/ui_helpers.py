@@ -70,7 +70,7 @@ def parse_input(session, command_completer):
     return cmd.lower(), args
 
 
-def render_table(data, headers=None, row_color=None):
+def render_table(data, headers=["Name", "Address", "Phone", "Email", "Birthday", "Description", "Tags"], row_color=None):
     """
     data: list of lists (rows)
     headers: list of column names

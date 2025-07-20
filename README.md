@@ -1,18 +1,24 @@
 # 🤖 Address Book CLI Bot
 
-This project is a **command-line assistant** for managing a personal address book. It allows users to add, edit, search, and delete contacts, store birthdays, and receive birthday reminders for the upcoming week.
+This project is a **command-line assistant** for managing a personal address book.
+It allows users to add, edit, search, and delete contacts, store birthdays, and receive birthday reminders for the upcoming week.
+
+---
 
 ## 👥 Team
 
 **Team Name:** Bug Busters
 
 **Members:**
-- **Vasylyna Bizniakova** — [vbiznyakova@gmail.com](mailto:vbiznyakova@gmail.com)
-- **Yatsenko Serhii** — [serhii2111@yahoo.com](mailto:serhii2111@yahoo.com)
-- **Kateryna Kukuruzova** — [kukuruzova.ekaterina@gmail.com](mailto:kukuruzova.ekaterina@gmail.com)
-- **Ihor Malyshko** — [malishkoio@gmail.com](mailto:malishkoio@gmail.com)
+
+* **Vasylyna Bizniakova** — [vbiznyakova@gmail.com](mailto:vbiznyakova@gmail.com)
+* **Yatsenko Serhii** — [serhii2111@yahoo.com](mailto:serhii2111@yahoo.com)
+* **Kateryna Kukuruzova** — [kukuruzova.ekaterina@gmail.com](mailto:kukuruzova.ekaterina@gmail.com)
+* **Ihor Malyshko** — [malishkoio@gmail.com](mailto:malishkoio@gmail.com)
 
 **Project Board:** [GitHub Project Board](https://github.com/users/Ihor-malyshko/projects/4/views/1)
+
+---
 
 ## 🚀 How to Run the Project
 
@@ -31,23 +37,23 @@ python -m venv venv
 
 ### 3. Activate the virtual environment
 
-* **PowerShell (Windows):**
+**PowerShell (Windows):**
 
-  ```powershell
-  .\venv\Scripts\Activate.ps1
-  ```
+```powershell
+.\venv\Scripts\Activate.ps1
+```
 
-* **Command Prompt (Windows):**
+**Command Prompt (Windows):**
 
-  ```cmd
-  venv\Scripts\activate.bat
-  ```
+```cmd
+venv\Scripts\activate.bat
+```
 
-* **macOS / Linux:**
+**macOS / Linux:**
 
-  ```bash
-  source venv/bin/activate
-  ```
+```bash
+source venv/bin/activate
+```
 
 ### 4. Install dependencies
 
@@ -55,70 +61,99 @@ python -m venv venv
 pip install -r requirements.txt
 ```
 
-### 5. Run the assistant bot
+> ✅ **If you plan to use the run script (`run.bat`, `run.ps1`, or `run.sh`), you don’t need to activate the virtual environment manually — it’s already handled by the script. Just make sure to install dependencies once.**
 
-#### Manually:
+---
+
+### ▶️ Run the Assistant Bot
+
+**Manual Run (after activation):**
 
 ```bash
 cd src
 python bot.py
 ```
 
-#### Or via script (Windows only):
+**Or via script:**
 
-* For Command Prompt:
+* **Windows (Command Prompt):**
 
   ```cmd
   .\run.bat
   ```
 
-* For PowerShell:
+* **Windows (PowerShell):**
 
   ```powershell
   .\run.ps1
   ```
 
+* **macOS / Linux (Terminal):**
+
+  ```bash
+  ./run.sh
+  ```
+
+> ⚠️ On macOS/Linux, make the script executable first:
+
+```bash
+chmod +x run.sh
+```
+
 ---
 
 ## 💬 Supported Commands
 
-| Context      | Command                                                 | Arguments / Format               | Description                      |
-| ------------ | ------------------------------------------------------- | -------------------------------- | -------------------------------- |
-| **Main**     | `contacts`                                              | –                                | Enter the Contacts module        |
-|              | `notes`                                                 | –                                | Enter the Notes module           |
-|              | `hello`                                                 | –                                | Greet the assistant              |
-|              | `help`                                                  | –                                | Show main help menu              |
-|              | `exit`                                                  | –                                | Save and exit the program        |
-| **Contacts** | `add <name> [address] [phones] [email] [birthday]`      | Name (required), others optional | Add a new contact                |
-|              | `edit <name> [new_address] [phones] [email] [birthday]` | Name (required), others optional | Edit existing contact            |
-|              | `delete <name>`                                         | Name                             | Delete a contact                 |
-|              | `search`                                                | –                                | Search contacts by name or phone |
-|              | `birthdays`                                             | Number of days (e.g. `7`)        | Show upcoming birthdays          |
-|              | `show`                                                  | –                                | Show all saved contacts          |
-|              | `back`                                                  | –                                | Return to main menu              |
-|              | `help`                                                  | –                                | Show contacts help menu          |
-| **Notes**    | `add [note text]`                                       | Optional note text               | Add a new note                   |
-|              | `edit [note id]`                                        | ID of the note                   | Edit an existing note            |
-|              | `delete [note id]`                                      | ID of the note                   | Delete a note                    |
-|              | `search [query]`                                        | Search query                     | Search notes                     |
-|              | `list-tags`                                             | –                                | List all tags used in notes      |
-|              | `back`                                                  | –                                | Return to main menu              |
-|              | `help`                                                  | –                                | Show notes help menu             |
+### Main
 
+| Command    | Arguments | Description               |
+| ---------- | --------- | ------------------------- |
+| `contacts` | –         | Enter the Contacts module |
+| `notes`    | –         | Enter the Notes module    |
+| `hello`    | –         | Greet the assistant       |
+| `help`     | –         | Show main help menu       |
+| `exit`     | –         | Save and exit the program |
 
+### Contacts Module
+
+| Command     | Arguments / Format                                 | Description                   |
+| ----------- | -------------------------------------------------- | ----------------------------- |
+| `add`       | `<name> [address] [phones] [email] [birthday]`     | Add a new contact             |
+| `edit`      | `<name> [new_address] [phones] [email] [birthday]` | Edit existing contact         |
+| `delete`    | `<name>`                                           | Delete a contact              |
+| `search`    | –                                                  | Search contacts by name/phone |
+| `birthdays` | `Number of days (e.g. 7)`                          | Show upcoming birthdays       |
+| `show`      | –                                                  | Show all saved contacts       |
+| `back`      | –                                                  | Return to main menu           |
+| `help`      | –                                                  | Show contacts help menu       |
+
+### Notes Module
+
+| Command     | Arguments     | Description           |
+| ----------- | ------------- | --------------------- |
+| `add`       | `[note text]` | Add a new note        |
+| `edit`      | `[note id]`   | Edit an existing note |
+| `delete`    | `[note id]`   | Delete a note         |
+| `search`    | `[query]`     | Search notes          |
+| `list-tags` | –             | List all used tags    |
+| `back`      | –             | Return to main menu   |
+| `help`      | –             | Show notes help menu  |
 
 ---
 
 ## 🧠 Features
 
-- 📚 **Contact Management**  
-  Contacts are stored in a custom `AddressBook` class based on `UserDict`.
+### 📚 Contact Management
 
-- 📝 **Contact Notes**  
-  Allows users to add personal notes to each contact for additional context or information.
+Contacts are stored in a custom `AddressBook` class based on `UserDict`.
 
-- 🔡 **Command Autocomplete**  
-  Supports command autocompletion for faster and easier CLI interaction.
+### 🗒️ Contact Notes
+
+Allows users to add personal notes to each contact for additional context or information.
+
+### 🔡 Command Autocomplete
+
+Supports command autocompletion for faster and easier CLI interaction.
 
   This feature provides an intelligent autocomplete system for CLI commands using `prompt_toolkit`. It enhances user experience by suggesting valid commands as the user types — minimizing typos and speeding up command entry.
 
@@ -162,14 +197,25 @@ Command 'shuws' not recognized.💡 Did you mean: show? [y/n]: y
 
 ---
 
-## 🧪 Example Usage
+### ✨ CLI Interface & Styling
 
-TODO
+A futuristic command-line interface with:
+
+* 🌈 Colored text and emoji icons
+* 📦 Custom UI components:
+
+  * Contact tables with ASCII-style borders
+  * Instruction blocks for command usage
+  * Colored highlighting for arguments, examples, and command names
+* 🎨 Unified message styling for success, error, and info messages
+  Integrated using `colorama` and `prompt_toolkit`.
+
+---
 
 ## 🏁 Exiting the Program
 
-To close the bot, type:
+To close the bot, simply type:
 
-```
+```bash
 exit
 ```

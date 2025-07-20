@@ -6,8 +6,8 @@ class Tags(UserDict):
         super().__init__()
         self.data = tags
 
-    def __repr__(self):
-        return f"Tags({self.data})"
+    def __str__(self):
+        return f"{', '.join(self.data.split(' ') if isinstance(self.data, str) else self.data)}"
 
 
 class Note:
@@ -17,7 +17,7 @@ class Note:
         self.description = description
 
     def __repr__(self):
-        return f"Note(tags={self.tags}, description={self.description})"
+        return f"Note(tags=[{self.tags}], description={self.description})"
       
       
 def note_handler(book, args):
