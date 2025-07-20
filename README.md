@@ -1,156 +1,179 @@
-  # 🤖 Address Book CLI Bot
+# 🤖 Address Book CLI Bot
 
-  This project is a **command-line assistant** for managing a personal address book. It allows users to add, edit, search, and delete contacts, store birthdays, and receive birthday reminders for the upcoming week.
+This project is a **command-line assistant** for managing a personal address book.
+It allows users to add, edit, search, and delete contacts, store birthdays, and receive birthday reminders for the upcoming week.
 
-  ## 👥 Team
+---
 
-  **Team Name:** Bug Busters
+## 👥 Team
 
-  **Members:**
-  - **Vasylyna Bizniakova** — [vbiznyakova@gmail.com](mailto:vbiznyakova@gmail.com)
-  - **Yatsenko Serhii** — [serhii2111@yahoo.com](mailto:serhii2111@yahoo.com)
-  - **Kateryna Kukuruzova** — [kukuruzova.ekaterina@gmail.com](mailto:kukuruzova.ekaterina@gmail.com)
-  - **Ihor Malyshko** — [malishkoio@gmail.com](mailto:malishkoio@gmail.com)
+**Team Name:** Bug Busters
 
-  **Project Board:** [GitHub Project Board](https://github.com/users/Ihor-malyshko/projects/4/views/1)
+**Members:**
 
-  ## 🚀 How to Run the Project
+* **Vasylyna Bizniakova** — [vbiznyakova@gmail.com](mailto:vbiznyakova@gmail.com)
+* **Yatsenko Serhii** — [serhii2111@yahoo.com](mailto:serhii2111@yahoo.com)
+* **Kateryna Kukuruzova** — [kukuruzova.ekaterina@gmail.com](mailto:kukuruzova.ekaterina@gmail.com)
+* **Ihor Malyshko** — [malishkoio@gmail.com](mailto:malishkoio@gmail.com)
 
-  ### 1. Clone the repository
+**Project Board:** [GitHub Project Board](https://github.com/users/Ihor-malyshko/projects/4/views/1)
+
+---
+
+## 🚀 How to Run the Project
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Ihor-malyshko/project-group-5-py
+cd project-group-5-py
+```
+
+### 2. Create a virtual environment
+
+```bash
+python -m venv venv
+```
+
+### 3. Activate the virtual environment
+
+**PowerShell (Windows):**
+
+```powershell
+.\venv\Scripts\Activate.ps1
+```
+
+**Command Prompt (Windows):**
+
+```cmd
+venv\Scripts\activate.bat
+```
+
+**macOS / Linux:**
+
+```bash
+source venv/bin/activate
+```
+
+### 4. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+> ✅ **If you plan to use the run script (`run.bat`, `run.ps1`, or `run.sh`), you don’t need to activate the virtual environment manually — it’s already handled by the script. Just make sure to install dependencies once.**
+
+---
+
+### ▶️ Run the Assistant Bot
+
+**Manual Run (after activation):**
+
+```bash
+cd src
+python bot.py
+```
+
+**Or via script:**
+
+* **Windows (Command Prompt):**
+
+  ```cmd
+  .\run.bat
+  ```
+
+* **Windows (PowerShell):**
+
+  ```powershell
+  .\run.ps1
+  ```
+
+* **macOS / Linux (Terminal):**
 
   ```bash
-  git clone https://github.com/Ihor-malyshko/project-group-5-py
-  cd project-group-5-py
+  ./run.sh
   ```
 
-  ### 2. Create a virtual environment
+> ⚠️ On macOS/Linux, make the script executable first:
 
-  ```bash
-  python -m venv venv
-  ```
+```bash
+chmod +x run.sh
+```
 
-  ### 3. Activate the virtual environment
+---
 
-  * **PowerShell (Windows):**
+## 💬 Supported Commands
 
-    ```powershell
-    .\venv\Scripts\Activate.ps1
-    ```
+### Main
 
-  * **Command Prompt (Windows):**
+| Command    | Arguments | Description               |
+| ---------- | --------- | ------------------------- |
+| `contacts` | –         | Enter the Contacts module |
+| `notes`    | –         | Enter the Notes module    |
+| `hello`    | –         | Greet the assistant       |
+| `help`     | –         | Show main help menu       |
+| `exit`     | –         | Save and exit the program |
 
-    ```cmd
-    venv\Scripts\activate.bat
-    ```
+### Contacts Module
 
-  * **macOS / Linux:**
+| Command     | Arguments / Format                                 | Description                   |
+| ----------- | -------------------------------------------------- | ----------------------------- |
+| `add`       | `<name> [address] [phones] [email] [birthday]`     | Add a new contact             |
+| `edit`      | `<name> [new_address] [phones] [email] [birthday]` | Edit existing contact         |
+| `delete`    | `<name>`                                           | Delete a contact              |
+| `search`    | –                                                  | Search contacts by name/phone |
+| `birthdays` | `Number of days (e.g. 7)`                          | Show upcoming birthdays       |
+| `show`      | –                                                  | Show all saved contacts       |
+| `back`      | –                                                  | Return to main menu           |
+| `help`      | –                                                  | Show contacts help menu       |
 
-    ```bash
-    source venv/bin/activate
-    ```
+### Notes Module
 
-  ### 4. Install dependencies
+| Command     | Arguments     | Description           |
+| ----------- | ------------- | --------------------- |
+| `add`       | `[note text]` | Add a new note        |
+| `edit`      | `[note id]`   | Edit an existing note |
+| `delete`    | `[note id]`   | Delete a note         |
+| `search`    | `[query]`     | Search notes          |
+| `list-tags` | –             | List all used tags    |
+| `back`      | –             | Return to main menu   |
+| `help`      | –             | Show notes help menu  |
 
-  ```bash
-  pip install -r requirements.txt
-  ```
+---
 
-  ### 5. Run the assistant bot
+## 🧠 Features
 
-  #### Manually:
+### 📚 Contact Management
 
-  ```bash
-  cd src
-  python bot.py
-  ```
+Contacts are stored in a custom `AddressBook` class based on `UserDict`.
 
-  #### ▶️ Run via script
+### 🗒️ Contact Notes
 
-  * **Windows (Command Prompt):**
+Allows users to add personal notes to each contact for additional context or information.
 
-    ```cmd
-    .\run.bat
-    ```
+### 🔡 Command Autocomplete
 
-  * **Windows (PowerShell):**
+Supports command autocompletion for faster and easier CLI interaction.
 
-    ```powershell
-    .\run.ps1
-    ```
+### ✨ CLI Interface & Styling
 
-  * **macOS / Linux (Terminal):**
+A futuristic command-line interface with:
 
-    ```bash
-    ./run.sh
-    ```
+* 🌈 Colored text and emoji icons
+* 📦 Custom UI components:
 
-  > ⚠️ On macOS/Linux, make the script executable before running it:
-  >
-  > ```bash
-  > chmod +x run.sh
-  > ```
+  * Contact tables with ASCII-style borders
+  * Instruction blocks for command usage
+  * Colored highlighting for arguments, examples, and command names
+* 🎨 Unified message styling for success, error, and info messages
+  Integrated using `colorama` and `prompt_toolkit`.
 
-  ---
+---
 
-  ## 💬 Supported Commands
+## 🏁 Exiting the Program
 
-  | Context      | Command                                                 | Arguments / Format               | Description                      |
-  | ------------ | ------------------------------------------------------- | -------------------------------- | -------------------------------- |
-  | **Main**     | `contacts`                                              | –                                | Enter the Contacts module        |
-  |              | `notes`                                                 | –                                | Enter the Notes module           |
-  |              | `hello`                                                 | –                                | Greet the assistant              |
-  |              | `help`                                                  | –                                | Show main help menu              |
-  |              | `exit`                                                  | –                                | Save and exit the program        |
-  | **Contacts** | `add <name> [address] [phones] [email] [birthday]`      | Name (required), others optional | Add a new contact                |
-  |              | `edit <name> [new_address] [phones] [email] [birthday]` | Name (required), others optional | Edit existing contact            |
-  |              | `delete <name>`                                         | Name                             | Delete a contact                 |
-  |              | `search`                                                | –                                | Search contacts by name or phone |
-  |              | `birthdays`                                             | Number of days (e.g. `7`)        | Show upcoming birthdays          |
-  |              | `show`                                                  | –                                | Show all saved contacts          |
-  |              | `back`                                                  | –                                | Return to main menu              |
-  |              | `help`                                                  | –                                | Show contacts help menu          |
-  | **Notes**    | `add [note text]`                                       | Optional note text               | Add a new note                   |
-  |              | `edit [note id]`                                        | ID of the note                   | Edit an existing note            |
-  |              | `delete [note id]`                                      | ID of the note                   | Delete a note                    |
-  |              | `search [query]`                                        | Search query                     | Search notes                     |
-  |              | `list-tags`                                             | –                                | List all tags used in notes      |
-  |              | `back`                                                  | –                                | Return to main menu              |
-  |              | `help`                                                  | –                                | Show notes help menu             |
+To close the bot, simply type:
 
-
-
-  ---
-
-  ## 🧠 Features
-
-  - 📚 **Contact Management**  
-    Contacts are stored in a custom `AddressBook` class based on `UserDict`.
-
-  - 📝 **Contact Notes**  
-    Allows users to add personal notes to each contact for additional context or information.
-
-  - 🔡 **Command Autocomplete**  
-    Supports command autocompletion for faster and easier CLI interaction.
-    
-  ## ✨ CLI Interface & Styling
-
-  A futuristic command-line interface with:
-
-  - 🌈 Colored text and emoji icons
-  - 📦 Custom UI components:
-    - Contact tables with ASCII-style borders
-    - Instruction blocks for command usage
-    - Colored highlighting for arguments, examples, and command names
-  - 🎨 Unified message styling for success, error, and info messages
-
-  Integrated using [`colorama`](https://pypi.org/project/colorama/) and [`prompt_toolkit`](https://python-prompt-toolkit.readthedocs.io/).
-  =======
-
-
-  ## 🏁 Exiting the Program
-
-  To close the bot, type:
-
-  ```
-  exit
-  ```
+```bash
+exit
+```
