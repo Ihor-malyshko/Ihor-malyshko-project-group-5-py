@@ -2,6 +2,7 @@ from typing import Iterable, List
 from prompt_toolkit.completion import Completer, Completion
 from prompt_toolkit.document import Document
 from prompt_toolkit.completion import CompleteEvent
+from cli.keyboard_layout import KEYBOARD_LAYOUT
 
 
 class CommandCompleter(Completer):
@@ -42,6 +43,21 @@ class CommandCompleter(Completer):
             return  # Cursor is past the first word → don't show completions
 
         fragment = words[0].lower() if words else ""
+        fragment_lower = fragment.lower()
+        translit_fragment = self._translate_layout(fragment_lower)
+        current_word = document.get_word_before_cursor()
+
         for command in self.commands:
-            if command.lower().startswith(fragment):
-                yield Completion(command, start_position=-len(fragment))
+            cmd_lower = command.lower()
+            if cmd_lower.startswith(fragment_lower) or cmd_lower.startswith(
+                translit_fragment
+            ):
+                # Show completion starting from the beginning of the current word being typed
+                yield Completion(
+                    command,
+                    start_position=-len(current_word),
+                )
+
+    def _translate_layout(self, input_str: str) -> str:
+        """Translates a string typed in Cyrillic as if on a QWERTY keyboard to Latin."""
+        return input_str.translate(KEYBOARD_LAYOUT)
