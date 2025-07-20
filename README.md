@@ -129,15 +129,15 @@ chmod +x run.sh
 
 ### Notes Module
 
-| Command     | Arguments     | Description           |
-| ----------- | ------------- | --------------------- |
-| `add`       | `[note text]` | Add a new note        |
-| `edit`      | `[note id]`   | Edit an existing note |
-| `delete`    | `[note id]`   | Delete a note         |
-| `search`    | `[query]`     | Search notes          |
-| `list-tags` | –             | List all used tags    |
-| `back`      | –             | Return to main menu   |
-| `help`      | –             | Show notes help menu  |
+| Command     | Arguments                         | Description               |
+| ----------- | --------------------------------- | ------------------------- |
+| `add`       | `<name>, [tags], [description]`   | Add a new note            |
+| `edit`      | `<name>, [tags], [description]`   | Edit an existing note     |
+| `delete`    | `<name>`                          | Delete a note             |
+| `search`    | `tag`                             | Search contacts by tag    |
+| `show`      | –                                 | Search contacts with tag  |
+| `back`      | –                                 | Return to main menu       |
+| `help`      | –                                 | Show notes help menu      |
 
 ---
 

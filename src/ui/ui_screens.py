@@ -121,9 +121,9 @@ def handle_notes_module():
 
 
     commands = [
-        f"• {COLORS.green_light}add [note text]{COLORS.cyan}                                                 — Add new note",
-        f"• {COLORS.green_light}edit [note id]{COLORS.cyan}                                                   — Edit a note",
-        f"• {COLORS.green_light}delete [note id]{COLORS.cyan}                                               — Delete a note",
+        f"• {COLORS.green_light}add <name>, [tags], [description]{COLORS.cyan}                                                 — Add new note",
+        f"• {COLORS.green_light}edit <name>, [tags], [description]{COLORS.cyan}                                                   — Edit a note",
+        f"• {COLORS.green_light}delete <name>{COLORS.cyan}                                               — Delete a note",
         f"• {COLORS.green_light}search [query]{COLORS.cyan}                                                  — Search notes",
         f"• {COLORS.green_light}list-tags{COLORS.cyan}                                                — List available tags",
         f"• {COLORS.green_light}back{COLORS.cyan}                                                     — Return to main menu",
