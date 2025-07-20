@@ -1,7 +1,13 @@
 from prompt_toolkit import prompt
 from prompt_toolkit.formatted_text import HTML
 from wcwidth import wcswidth
-from ui.style_settings import FULL_WIDTH, ANSI_ESCAPE_RE, COLORS, cli_style, prompt_style
+from ui.style_settings import (
+    FULL_WIDTH,
+    ANSI_ESCAPE_RE,
+    COLORS,
+    cli_style,
+    prompt_style,
+)
 
 
 def strip_ansi(text: str) -> str:
@@ -57,7 +63,7 @@ def parse_input(session, command_completer):
 
     if not user_input.strip():
         lines = [
-            "🧭  No input received.",
+            "🧭 No input received.",
             "➤  Please enter a valid command.",
         ]
         print(border())

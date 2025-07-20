@@ -95,7 +95,7 @@ def handle_contacts_module():
  
 
     commands = [
-        f"• {COLORS.green_light}add <name> [address] [phones] [email] [birthday]{COLORS.cyan}           — Add a new contact",
+        f"• {COLORS.green_light}add <name> <address> [phones] [email] [birthday]{COLORS.cyan}           — Add a new contact",
         f"• {COLORS.green_light}edit <name> [new_address] [phones] [email] [birthday]{COLORS.cyan}  — Edit existing contact",
         f"• {COLORS.green_light}delete <name>{COLORS.cyan}                                               — Delete a contact",
         f"• {COLORS.green_light}search{COLORS.cyan}                                      — Search contacts by name or phone",
@@ -122,9 +122,9 @@ def handle_notes_module():
 
 
     commands = [
-        f"• {COLORS.green_light}add <name>, [tags], [description]{COLORS.cyan}                                                 — Add new note",
-        f"• {COLORS.green_light}edit <name>, [tags], [description]{COLORS.cyan}                                                   — Edit a note",
-        f"• {COLORS.green_light}delete <name>{COLORS.cyan}                                               — Delete a note",
+        f"• {COLORS.green_light}add <name>, [tags], [description]{COLORS.cyan}                               — Add new note",
+        f"• {COLORS.green_light}edit <name>, [tags], [description]{COLORS.cyan}                               — Edit a note",
+        f"• {COLORS.green_light}delete <name>{COLORS.cyan}                                                  — Delete a note",
         f"• {COLORS.green_light}search [query]{COLORS.cyan}                                                  — Search notes",
         f"• {COLORS.green_light}list-tags{COLORS.cyan}                                                — List available tags",
         f"• {COLORS.green_light}back{COLORS.cyan}                                                     — Return to main menu",
