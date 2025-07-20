@@ -44,6 +44,7 @@ class Bot:
     def _initialize_commands(self) -> None:
         """Initialize command handlers dictionary."""
         self.command_handlers: Dict[str, Callable] = {
+            "show": self.wrap_handler(contacts.show_all_contacts, self.address_book),
             "contacts": lambda _: self.context_manager.switch_context(
                 Context.CONTACTS, self.handle_contacts_command
             ),
@@ -53,6 +54,7 @@ class Bot:
             "exit": lambda _: self.save_and_exit(),
             "hello": lambda _: ui_screens.print_greeting_response(),
             "help": lambda _: ui_screens.print_help(),
+            "demo": lambda _: ui_screens.show_demo(),
         }
 
         self.contacts_command_handlers: Dict[str, Callable] = {
@@ -69,17 +71,25 @@ class Bot:
             "back": lambda _: self._back_to_main(),
             "exit": lambda _: self.save_and_exit(),
             "help": lambda _: ui_screens.handle_contacts_module(),
+            # quick switch to notes module
+            "notes": lambda _: self.context_manager.switch_context(
+                Context.NOTES, self.handle_notes_command
+            ),
         }
 
         self.notes_command_handlers: Dict[str, Callable] = {
-            # "add": self.wrap_handler(notes.add_note, self.address_book),
-            # "edit": self.wrap_handler(notes.edit_note, self.address_book),
-            # "delete": self.wrap_handler(notes.delete_note, self.address_book),
-            # "search": self.wrap_handler(notes.search_notes, self.address_book),
-            # "show": self.wrap_handler(notes.show_notes, self.address_book),
+            "add": self.wrap_handler(notes.add_note, self.address_book),
+            "edit": self.wrap_handler(notes.edit_note, self.address_book),
+            "delete": self.wrap_handler(notes.delete_note, self.address_book),
+            "search": self.wrap_handler(notes.search_contacts_by_tag, self.address_book),
+            "show": self.wrap_handler(notes.show_contacts_with_notes, self.address_book),
             "exit": lambda _: self.save_and_exit(),
             "back": lambda _: self.context_manager.switch_context(Context.MAIN),
             "help": lambda _: ui_screens.handle_notes_module(),
+            # quick switch to contacts module
+            "contacts": lambda _: self.context_manager.switch_context(
+                Context.CONTACTS, self.handle_contacts_command
+            ),
         }
 
         self.commands_by_context = {
