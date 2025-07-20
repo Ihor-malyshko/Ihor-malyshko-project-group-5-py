@@ -1,4 +1,4 @@
-from bot import AddressBook, Record  # Заміни 'bot_done' на назву свого файла, якщо потрібно
+from main import AddressBook, Record  # Заміни 'bot_done' на назву свого файла, якщо потрібно
 
 def run_tests():
     book = AddressBook()
