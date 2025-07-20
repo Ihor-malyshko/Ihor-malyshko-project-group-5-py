@@ -155,6 +155,48 @@ Allows users to add personal notes to each contact for additional context or inf
 
 Supports command autocompletion for faster and easier CLI interaction.
 
+  This feature provides an intelligent autocomplete system for CLI commands using `prompt_toolkit`. It enhances user experience by suggesting valid commands as the user types — minimizing typos and speeding up command entry.
+
+### 🔑 Key Components
+
+- **Context-Aware Autocompletion**  
+  Autocompletion adapts to the current context (`MAIN`, `CONTACTS`, `NOTES`) — only valid commands are suggested based on where you are.
+
+- **Tab Completion Support**  
+  Just like in traditional CLI environments, pressing `Tab` autocompletes the command you're typing (if there's a match), or shows a list of possible completions.
+
+- **First-Word Command Matching**  
+  Only the first word (command name) is completed — arguments are not autocompleted to avoid noise.
+
+- **Live Inline Suggestions**  
+  As you type, matching commands appear instantly. Matching is case-insensitive and continuously updates.
+
+- **Command History Navigation**  
+  Use `↑` / `↓` to scroll through your command history.
+
+- **Safe Exit Handling**  
+  Pressing `Ctrl+C` exits gracefully — data is saved, and an exit message is displayed.
+
+- **Fuzzy Matching for Mistyped Commands**  
+  If a command is misspelled, the system uses fuzzy matching to suggest a correction and asks for confirmation before executing it.
+
+
+### 🧠 Example Interaction
+
+```bash
+> shuws
+Command 'shuws' not recognized.💡 Did you mean: show? [y/n]: y
+
+┌────────────────┬─────────┬────────────┬───────┬──────────┬──────┐
+│ Name           │ Address │ Phone      │ Email │ Birthday │ Note │
+├────────────────┼─────────┼────────────┼───────┼──────────┼──────┤
+│ John           │ Kyiv    │ 1234567890 │ —     │ —        │ —    │
+│ Hogn           │ Kyiv    │ —          │ —     │ —        │ —    │
+└────────────────┴─────────┴────────────┴───────┴──────────┴──────┘
+```
+
+---
+
 ### ✨ CLI Interface & Styling
 
 A futuristic command-line interface with:
