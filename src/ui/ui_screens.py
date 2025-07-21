@@ -59,6 +59,37 @@ def print_exit_message():
     print()
 
 
+def print_press_enter_message():
+    print()
+    print(
+        line(
+            f"{COLORS.cyan}🔘 Press {COLORS.bright}Enter{COLORS.reset}{COLORS.cyan} to continue..."
+        )
+    )
+
+
+def print_demo_finished_message():
+    print()
+    print(border())
+    print(
+        line(
+            f"{COLORS.green}{COLORS.bright}✅ DEMO COMPLETE — SYSTEM RETURNING TO IDLE MODE..."
+        )
+    )
+    print(separator())
+
+    messages = [
+        f"{COLORS.yellow}🎯 You've just explored the core capabilities of your personal assistant.",
+        f"{COLORS.cyan}🚀 We hope the experience was inspiring.",
+        f"{COLORS.magenta}📦 All data has been saved. Ready for future missions.",
+    ]
+    for msg in messages:
+        print(line(msg))
+
+    print(border(top=False))
+    print()
+
+
 def print_unknown_command(command=None):
     print(border())
     print(line(f"{COLORS.cyan}🧭  Command not recognized."))
@@ -149,6 +180,7 @@ def print_help():
         f"• {COLORS.green_light}hello{COLORS.cyan}                                      — Get a greeting from the assistant",
         f"• {COLORS.green_light}help{COLORS.cyan}                                                     — Show this help menu",
         f"• {COLORS.green_light}exit{COLORS.cyan}                                               — Save and exit the program",
+        f"{COLORS.cyan}🔹 Enter {COLORS.green_light}demo{COLORS.cyan}                                       - Run demo mode",
     ]
     for cmd in commands:
         print(line(cmd))
