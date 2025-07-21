@@ -180,7 +180,7 @@ def print_help():
         f"• {COLORS.green_light}hello{COLORS.cyan}                                      — Get a greeting from the assistant",
         f"• {COLORS.green_light}help{COLORS.cyan}                                                     — Show this help menu",
         f"• {COLORS.green_light}exit{COLORS.cyan}                                               — Save and exit the program",
-        f"{COLORS.cyan}🔹 Enter {COLORS.green_light}demo{COLORS.cyan}                                       - Run demo mode",
+        f"• {COLORS.green_light}demo{COLORS.cyan}                                                           - Run demo mode",
     ]
     for cmd in commands:
         print(line(cmd))
